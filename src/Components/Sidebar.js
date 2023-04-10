@@ -21,7 +21,7 @@ function Sidebar() {
                         {logo && <img className='image-logo' src={logo} />}
                     </span>
                     <span className='name pt-1 px-2'>
-                        {obj.firstName}&nbsp;{obj.lastName}
+                        {/* {obj.firstName}&nbsp;{obj.lastName} */}Akshay
                     </span><br />
 
                     {(location && location.pathname === "/dashboard") || (location && location.pathname === "/report")|| (location && location.pathname === "/shipment") ?
