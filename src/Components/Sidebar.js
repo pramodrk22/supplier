@@ -24,7 +24,7 @@ function Sidebar() {
                         {/* {obj.firstName}&nbsp;{obj.lastName} */}Akshay
                     </span><br />
 
-                    {(location && location.pathname === "/dashboard") || (location && location.pathname === "/report")|| (location && location.pathname === "/shipment") ?
+                    {(location && location.pathname === "/dashboard") || (location && location.pathname === "/report")|| (location && location.pathname === "/shipment") || (location && location.pathname === "/payment") ?
                         <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center" id="menu">
                             <li className="nav-item">
                                 
@@ -44,6 +44,12 @@ function Sidebar() {
                             <li className="nav-item">
                                 <Link to="/shipment" className='remove-under-line'>
                                     Shipment
+                                </Link>
+                            </li>
+
+                            <li className="nav-item">
+                                <Link to="/payment" className='remove-under-line'>
+                                    Payment
                                 </Link>
                             </li>
 
