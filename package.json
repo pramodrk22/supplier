@@ -13,6 +13,7 @@
     "bootstrap": "^5.2.3",
     "pdfjs-dist": "^3.4.120",
     "react": "^18.2.0",
+    "react-axios": "^2.0.6",
     "react-bootstrap": "^2.7.2",
     "react-doc-viewer": "^0.1.5",
     "react-dom": "^18.2.0",

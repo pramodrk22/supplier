@@ -16,6 +16,7 @@ function App() {
           <Route path="/report" element={<Landingpage />} />
           <Route path="/shipment" element={<Landingpage />} />
           <Route path="/payment" element={<Landingpage />} />
+          <Route path="/dashboard" element={<Landingpage />} />
           
         </Route>
       </Routes>
