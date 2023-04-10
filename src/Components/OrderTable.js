@@ -24,14 +24,14 @@ function Table() {
 
     const onButtonClick = () => {
         // using Java Script method to get PDF file
-        fetch('http://localhost:3030/orders').then(response => {
+        fetch('http://localhost:4000/orders').then(response => {
             response.blob().then(blob => {
                 // Creating new object of PDF file
                 const fileURL = window.URL.createObjectURL(blob);
                 // Setting various property values
                 let alink = document.createElement('a');
                 alink.href = fileURL;
-                alink.download = 'http://localhost:3030/orders';
+                alink.download = 'http://localhost:4000/orders';
                 alink.click();
             })
         })
@@ -83,7 +83,7 @@ function Table() {
     // }
 
     useEffect(() => {
-        fetch(`http://localhost:3030/posts`)
+        fetch(`http://localhost:4000/posts`)
             .then(response => response.json())
             .then(response => {
 

@@ -9,7 +9,7 @@ function Card() {
     //GET NUMBER OF ORDERS
     const [userCount, setUserCount] = useState(0);
     useEffect(() => {
-        axios.get('http://localhost:3030/posts')
+        axios.get('http://localhost:4000/posts')
             .then(response => {
                 setUserCount(response.data.length);
                 console.log(response);
@@ -22,7 +22,7 @@ function Card() {
     //GET SHIPPED COUNT
     const [shippedOrderCount, setShippedOrderCount] = useState(0);
     useEffect(() => {
-        axios.get('http://localhost:3030/posts?status=Shipped')
+        axios.get('http://localhost:4000/posts?status=Shipped')
             .then(response => {
                 setShippedOrderCount(response.data.length);
             })

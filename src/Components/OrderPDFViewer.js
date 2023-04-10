@@ -21,7 +21,7 @@ const PDFViewer = ({open, onClose, rowInfo}) => {
     //const docs=[{uri : viewPDF },]
 
     useEffect(() => {
-        fetch('http://localhost:3030/orders')
+        fetch('http://localhost:4000/orders')
         .then((response) => response.json())
         .then((data)=> {
             console.log(data[0]);
