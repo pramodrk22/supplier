@@ -10,6 +10,10 @@ import eye from '../Assets/eye.png';
 import downloadLogo from '../Assets/download-logo.png';
 import uploadLogo from '../Assets/upload-logo.png';
 
+import ShipmentModal from './ShipmentModal';
+
+import './Shipment.css';
+
 
 const Shipment = () => {
     const [rowData, setRowData] = useState(); // Set rowData to Array of Objects, one Object per Row
@@ -34,8 +38,8 @@ const Shipment = () => {
        
         return(
             <div>
-                <img src={eye} />
-                <img src={downloadLogo}/>
+                <img src={eye} title="view" />
+                <img src={downloadLogo} title="download "/>
             </div>
             
         )
@@ -67,13 +71,19 @@ const Shipment = () => {
     .then(rowData => setRowData(rowData))
   }, []);
 
+  const [shipmentCreate, setShipmentCreate] = useState(false);
+
+  const createBtnClicked = () => {
+    setShipmentCreate(true);
+  }
     
 
     return(
         <div>
 
     <h3>Shipment</h3>
-        <button style={{position: 'relative', left:900}}>Create</button>
+        {/* <button style={{position: 'relative', left:900}}>Create</button> */}
+        <button type="button" class="btn btn-primary" style={{position: 'relative', left:900}} onClick={createBtnClicked}>Create</button>
      {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
      <div className="ag-theme-alpine" style={{ height: 490, width: 'auto' }}>
 
@@ -91,7 +101,7 @@ const Shipment = () => {
            pagination={true}
         />
 
-        
+        <ShipmentModal open={shipmentCreate} onClose={() => setShipmentCreate(false)} rowInfo={[1]}/>
      </div>
    </div>
     )

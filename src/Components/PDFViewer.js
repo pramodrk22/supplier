@@ -50,8 +50,7 @@ const PDFViewer = ({open, onClose, rowInfo}) => {
             <br/>
             
         
-            <button onClick={onClose} className='close-modal'>close</button>
-
+            <button className='close-modal' type="button"  onClick={onClose}  >close</button>
             
         </div>
 
