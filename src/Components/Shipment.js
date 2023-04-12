@@ -21,10 +21,10 @@ const Shipment = () => {
 
  // Each Column Definition results in one Column.
  const [columnDefs, setColumnDefs] = useState([
-   {field: 'make', headerName: 'Order ID', filter: true, flex: 1.5, filter: true,floatingFilter: true},
-   {field: 'model', headerName: 'Logistics Provider', filter: true, flex: 1.5, filter: true,floatingFilter: true},
-    {field: 'view', headerName:'Delivery Date', flex:1.5},
-    { headerName: 'Status',  flex: 1.5, filter: true,floatingFilter: true},
+   {field: 'orderId', headerName: 'Order ID', filter: true, flex: 1.5, filter: true,floatingFilter: true},
+   {field: 'from', headerName: 'Logistics Provider', filter: true, flex: 1.5, filter: true,floatingFilter: true},
+    {field: 'date', headerName:'Delivery Date', flex:1.5},
+    {field:'status', headerName: 'Status',  flex: 1.5, filter: true,floatingFilter: true},
     { headerName: 'Shipment Details',  flex: 1.5, cellRendererFramework:(params)=>{
         
         return(
@@ -67,7 +67,7 @@ const Shipment = () => {
   }));
 
   useEffect(() => {
-    fetch('https://www.ag-grid.com/example-assets/row-data.json')
+    fetch('http://localhost:4000/posts')
     .then(result => result.json())
     .then(rowData => setRowData(rowData))
   }, []);

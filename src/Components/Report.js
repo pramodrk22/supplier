@@ -29,8 +29,8 @@ const Report = () => {
 
  // Each Column Definition results in one Column.
  const [columnDefs, setColumnDefs] = useState([
-   {field: 'make', headerName: 'Sl.No', filter: true, flex: 1.5},
-   {field: 'model', headerName: 'Order ID', filter: true, flex: 1.5, filter: true,floatingFilter: true},
+   {field: 'make', headerName: 'Sl.No', filter: true, flex: 1.5, valueGetter: "node.rowIndex + 1"},
+   {field: 'orderId', headerName: 'Order ID', filter: true, flex: 1.5, filter: true,floatingFilter: true},
    {headerName: 'Reports', flex: 1.5, 
             cellRendererFramework: (param) => {
                 console.log('param is', param);
@@ -76,7 +76,7 @@ const Report = () => {
 
  // Example load data from server
  useEffect(() => {
-   fetch('https://www.ag-grid.com/example-assets/row-data.json')
+   fetch('http://localhost:4000/posts')
    .then(result => result.json())
    .then(rowData => setRowData(rowData))
  }, []);
