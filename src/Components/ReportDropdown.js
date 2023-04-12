@@ -7,7 +7,7 @@ import slogo from '../Assets/sonata-logo.png';
 
 
 
-const ReportDropdown = ({param}) => {
+const ReportDropdown = ({param, selectValue}) => {
     // const [isOpen, setIsOpen] = useState(false);
 
     // const handleClick = ()=> {
@@ -26,17 +26,25 @@ const ReportDropdown = ({param}) => {
     // const onClick = (event) => {
     //  alert(`You clicked ${event.target.value}`);
     // };
- 
+ const onFormSelect = () => {
+    var e = document.getElementById("dropSelect");
+    var value = e.value;
+    console.log("form select", value);
+    selectValue(value);
+ }
  
 
  return (
    <div>
-        <select >
+    <form >
+        <select name="optionValue" id="dropSelect" onInput={onFormSelect}>
             <option value="RM">RM </option>
             <option value="Finished Goods">Finished Goods </option>
             <option value="Quality">Quality </option>
             <option value="Insurance">Insurance </option>
         </select>
+    </form>
+        
 
 
         {/* <div className='dropdown'>

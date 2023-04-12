@@ -19,17 +19,18 @@
     bottom: 0;
 }
 
-.modal-content{
+.modal-content-pdf{
     position: absolute;
-    top: 47%;
+    top: 48%;
     left: 50%;
     transform: translate(-50%, -50%);
     line-height: 1.4;
-    background: #f1f1f1;
-    padding: 14px 28px;
+    background: #f1f1f1;       
+    padding: 14px 14px;
     border-radius: 3px;
-    max-width: 800px;
-    min-width: 300px;
+    max-width: 1000px;
+    min-width: 900px;
+    max-height:93vh ;
     
 }
 

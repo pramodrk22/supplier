@@ -22,6 +22,8 @@ import PDFViewer from './PDFViewer';
 
 const Report = () => {
  const pdfURL = 'http://localhost:4000/orders';
+
+ const [reportName, setReportName] = useState("RM");
  
  const [rowData, setRowData] = useState(); // Set rowData to Array of Objects, one Object per Row
 
@@ -31,9 +33,9 @@ const Report = () => {
    {field: 'model', headerName: 'Order ID', filter: true, flex: 1.5, filter: true,floatingFilter: true},
    {headerName: 'Reports', flex: 1.5, 
             cellRendererFramework: (param) => {
-                //console.log('param is', param);
+                console.log('param is', param);
                 return (
-                    <ReportDropdown param={param}/>
+                    <ReportDropdown param={param} selectValue={(r) => setReportName(r)}/>
                     // <ReportDropdown param={param}/>
                 );
     }},
@@ -84,7 +86,7 @@ const Report = () => {
  const [openModal, setOpenModal] = useState(false);
 
  const [orderID, setOrderID] = useState();
- const [reportName, setReportName] = useState();
+ 
 
  let parameter;
 
@@ -153,7 +155,7 @@ const Report = () => {
         />
 
         <Modal open={openModal} onClose={() => setOpenModal(false)} rowInfo={[orderID]}/>
-        <PDFViewer open={openPDFModal} onClose={() => setOpenPDFModal(false)} info={[1]}/>
+        <PDFViewer open={openPDFModal} onClose={() => setOpenPDFModal(false)} info={[reportName]}/>
      </div>
    </div>
  );
