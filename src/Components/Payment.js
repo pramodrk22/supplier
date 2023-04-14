@@ -26,8 +26,8 @@ const Payment = () => {
         
         return(
             <div>
-                <img src={eye } onClick={onViewClicked} />
-                <img src={downloadLogo} onClick={onDownloadClicked}/>
+                <img src={eye } onClick={onViewClicked} style={{ height: 35, width: 30 }}/>&nbsp;&nbsp;
+                <img src={downloadLogo} onClick={onDownloadClicked} style={{ height: 30, width: 30 }} />
             </div>
             
         )

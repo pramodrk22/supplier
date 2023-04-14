@@ -21,7 +21,7 @@ const Shipment = () => {
 
  // Each Column Definition results in one Column.
  const [columnDefs, setColumnDefs] = useState([
-   {field: 'orderId', headerName: 'Order ID', filter: true, flex: 1.5, filter: true,floatingFilter: true},
+   {field: 'orderId', headerName: 'OrderID', filter: true, flex: 1.2, filter: true,floatingFilter: true},
    {field: 'from', headerName: 'Logistics Provider', filter: true, flex: 1.5, filter: true,floatingFilter: true},
     {field: 'date', headerName:'Delivery Date', flex:1.5},
     {field:'status', headerName: 'Status',  flex: 1.5, filter: true,floatingFilter: true},
@@ -29,8 +29,8 @@ const Shipment = () => {
         
         return(
             <div>
-                <img src={eye} title="view" onClick={onViewClicked}/>
-                <img src={downloadLogo} title="download " onClick={onDownloadClicked}/>
+                <img src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }}/> &nbsp;&nbsp;
+                <img src={downloadLogo} title="download " onClick={onDownloadClicked}style={{ height: 30, width: 30 }}/>
             </div>
             
         )
@@ -39,8 +39,8 @@ const Shipment = () => {
        
         return(
             <div>
-                <img src={eye} title="view" onClick={onViewClicked} />
-                <img src={downloadLogo} title="download " onClick={onDownloadClicked}/>
+                <img src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }} />&nbsp;&nbsp;
+                <img src={downloadLogo} title="download " onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
             </div>
             
         )
@@ -49,8 +49,8 @@ const Shipment = () => {
         
         return(
             <div>
-                <img src={eye} title="view" onClick={onViewClicked}/>
-                <img src={downloadLogo} title="download " onClick={onDownloadClicked}/>
+                <img src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }}/>&nbsp;&nbsp;
+                <img src={downloadLogo} title="download " onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
             </div>
             
         )
@@ -64,6 +64,7 @@ const Shipment = () => {
        filter: true,
        //autoHeight: true,
        //resizable: true
+       
   }));
 
   useEffect(() => {

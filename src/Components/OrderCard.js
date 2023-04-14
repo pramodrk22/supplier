@@ -47,6 +47,7 @@ function Card() {
                         <h5 className="card-title">{userCount}</h5>
 
                     </div>
+                    {/* <div style={{float:"left"}}>Orders</div><div style={{float:"right"}}>Right Text</div> */}
                 </div>
 
 

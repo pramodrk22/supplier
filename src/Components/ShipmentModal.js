@@ -43,7 +43,7 @@ const ShipmentModal = ({open, onClose, rowInfo}) => {
                     <div class="form-group row">
                         <label for="status" class="col-sm-2 col-form-label">Status</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" id="status" placeholder="today"/>
+                            <input type="text" class="form-control" id="status" placeholder=""/>
                         </div>
                     </div>
                     <br></br>

@@ -44,18 +44,18 @@ const Report = () => {
             // <Link to="/" >
             //     <img src={eye}  />
             // </Link>
-            <img src={eye} onClick={onViewClicked}  />
+            <img src={eye} onClick={onViewClicked} style={{ height: 35, width: 30 }} />
         )
     }},
     {field: 'download', headerName: 'Download',  flex: 1.5, cellRendererFramework:()=>{
         return(
-            <img src={downloadLogo} onClick={onDownloadClicked}/>
+            <img src={downloadLogo} onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
         )
     }},
     {field: 'upload', headerName: 'Upload',  flex: 1.5, cellRendererFramework:(params)=>{
         parameter = params;
         return(
-            <img src={uploadLogo} onClick={onUploadClicked}/>
+            <img src={uploadLogo} onClick={onUploadClicked} style={{ height: 30, width: 30 }}/>
         )
     }}
  ]);

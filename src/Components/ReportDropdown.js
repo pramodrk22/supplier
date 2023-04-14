@@ -28,6 +28,7 @@ const ReportDropdown = ({param, selectValue}) => {
     // };
  const onFormSelect = () => {
     var e = document.getElementById("dropSelect");
+    //console.log("the class name",document.getElementsByClassName("dropSelect"))
     var value = e.value;
     console.log("form select", value);
     selectValue(value);

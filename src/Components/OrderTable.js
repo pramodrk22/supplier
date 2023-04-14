@@ -3,12 +3,13 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles//ag-grid.css';
 import 'ag-grid-community/styles//ag-theme-alpine.css';
 import "./OrderTable.css";
-import download from '../Assets/download.png';
-import view from '../Assets/view.png';
+import downloadLogo from '../Assets/download-logo.png';
+import eye from '../Assets/eye.png';
 import pdf from '../Assets/Supplier.pdf'
 import OrderPDFViewer from './OrderPDFViewer';
 import ReactDOM from 'react-dom'
 import React from 'react'
+
 function Table() {
     let gridApi;
     const gridRef = useRef();
@@ -116,7 +117,8 @@ function Table() {
 
         {
             field:'view Invoice', flex: 1, cellRendererFramework: (param) =>
-                  <button type="button" class="btn btn-primary" style={{width:'50%',backgroundColor:'white', border:'none'}}><img src={view} style={{width:'100%' ,height:'100%'}} onClick={onViewClicked}></img></button>
+            <img src={eye } onClick={onViewClicked} style={{ height: 35, width: 30 }}/>
+            
             },
             
            //  {
@@ -126,7 +128,7 @@ function Table() {
    
            {
                field:'download Invoice', flex: 1.75, cellRendererFramework: (param) =>
-                     <button type="button" class="btn btn-primary" style={{width:'50%',backgroundColor:'white', border:'none'}} onClick={onDownloadClicked}><img src={download} style={{width:'30%' ,height:'5%'}} ></img></button>
+               <img src={downloadLogo} onClick={onDownloadClicked} style={{ height: 30, width: 30 }} />
                }
 
     ]);
