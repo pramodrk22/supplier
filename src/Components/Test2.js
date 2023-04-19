@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect, useMemo, useCallback} from 'react';
 import { render } from 'react-dom';
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
@@ -15,39 +14,22 @@ import PDFViewer from './PDFViewer';
 
 import './Shipment.css';
 
-import factory from '../ethereum/factory'
-
-import ShipmentRows from './ShipmentRows';
-
-import { Button, Table } from "semantic-ui-react";
 import Campaign from '../ethereum/campaign'
 
-const Shipment = () => {
-  const [rowData, setRowData] = useState(); 
-  let rowValue;
 
-  const [columnDefs, setColumnDefs] = useState([
-  {field: 'orderID', headerName: 'OrderID', filter: true, flex: 1, filter: true,floatingFilter: true},
-  {field: 'logisticsProviderName', headerName: 'Logistics Provider', filter: true, flex: 1.5, filter: true,floatingFilter: true},
-    {field: 'status', headerName:'Status', flex:1.5, cellRendererFramework:(params)=> {
-      if(params.data.status){
-        return <p>delivered</p>
-      }else{
-        return <p>not delivered</p>
-      }
-    }},
-    {field:'shipmentDetails', headerName: 'Shipment Details',  flex: 1.5, filter: true,floatingFilter: true, cellRendererFramework:(params)=>{
-      rowValue = params;
-      return(
-          <div >
-              <img  src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }}/> &nbsp;&nbsp;
-              <img src={downloadLogo} title="download " onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
-          </div>
-          
-      )
-    }},
-    {field:'billOfLanding', headerName: 'Bill Of Landing',  flex: 1.5, cellRendererFramework:(params)=>{
-            
+
+const Test2 = () => {
+    const [rowData, setRowData] = useState(); // Set rowData to Array of Objects, one Object per Row
+    let rowValue;
+
+ // Each Column Definition results in one Column.
+ const [columnDefs, setColumnDefs] = useState([
+   {field: 'approvalCount', headerName: 'OrderID', filter: true, flex: 1.2, filter: true,floatingFilter: true},
+   {field: 'approvedby', headerName: 'Logistics Provider', filter: true, flex: 1.5, filter: true,floatingFilter: true},
+    {field: 'complete', headerName:'Delivery Date', flex:1.5},
+    {field:'inspectedby', headerName: 'Status',  flex: 1.5, filter: true,floatingFilter: true},
+    {field:'selectedFile', headerName: 'Shipment Details',  flex: 1.5, cellRendererFramework:(params)=>{
+            rowValue = params
         return(
             <div >
                 <img  src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }}/> &nbsp;&nbsp;
@@ -56,8 +38,8 @@ const Shipment = () => {
             
         )
     }},
-    {field:'Delivery Recipt', headerName:'Delivery Recipt', flex: 1.5, cellRendererFramework:(params)=>{
-      
+    {headerName:'Bill of Landing', flex: 1.5, cellRendererFramework:(params)=>{
+       
         return(
             <div>
 
@@ -67,10 +49,21 @@ const Shipment = () => {
             
         )
     }},
-    
-  ]);
+    {headerName:'Delivery Recipt', flex: 1.5, cellRendererFramework:(params)=>{
+        
+        return(
+            <div>
 
-  const defaultColDef = useMemo( ()=> ({
+                <img src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }}/>&nbsp;&nbsp;
+                <img src={downloadLogo} title="download " onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
+            </div>
+            
+        )
+    }}
+ ]);
+
+ // DefaultColDef sets props common to all Columns
+ const defaultColDef = useMemo( ()=> ({
      
     sortable: true,
        filter: true,
@@ -78,29 +71,38 @@ const Shipment = () => {
        //resizable: true
        
   }));
-   
+
+//   useEffect(() => {
+//     fetch('http://localhost:4000/posts')
+//     .then(result => result.json())
+//     .then(rowData => {
+//         console.log('row data', rowData);
+//         setRowData(rowData)})
+    
+//   }, []);
+
   const [request, setRequest] = useState([])
 
  useEffect( () => {
-  const address = '0xc319C7300D77035D567baE92B03B368aF2eE7113'
+  const address = '0x85b2cE00d3e0eb8835E5721ad811D4Ba187d3d85'
   const campaign = Campaign(address);
   console.log('use effect campaign',campaign);
   (async () => {
-    const requestCount = await campaign.methods.getSupplierShipmentCount().call();
+    const requestCount = await campaign.methods.getRequestsCount().call();
     console.log('req count', requestCount);
-    //const approversCount = await campaign.methods.approversCount().call();
+    const approversCount = await campaign.methods.approversCount().call();
     const requests = await Promise.all(
       Array(parseInt(requestCount))
         .fill()
         .map((element, index) => {
           
-          return campaign.methods.supplierShipments(index).call();
+          return campaign.methods.requests(index).call();
         })
     );
     setRequest(requests)
     console.log('useeffect requests', requests);
     setRowData(requests);
-    return { address, requests, requestCount };
+    return { address, requests, requestCount, approversCount };
   } )();
   
     
@@ -109,7 +111,8 @@ const Shipment = () => {
     }
    
  },[])
- const [shipmentCreate, setShipmentCreate] = useState(false);
+
+  const [shipmentCreate, setShipmentCreate] = useState(false);
 
   const createBtnClicked = () => {
     setShipmentCreate(true);
@@ -119,9 +122,9 @@ const Shipment = () => {
   const [pdfValue, setPdfValue] = useState('');
   
   const onViewClicked = (params)=> {
-    console.log("cell clicked", rowValue.data.billOfLanding);
+    console.log("cell clicked", rowValue.data.selectedFile);
     //console.log('params view',params)
-    setPdfValue(rowValue.data.billOfLanding);
+    setPdfValue(rowValue.data.selectedFile);
     setOpenPDFModal(true);
   }
 
@@ -136,8 +139,10 @@ const Shipment = () => {
     downloadLink.download = fileName;
     downloadLink.click();
  }
+
+
     return(
-      <div>
+        <div>
 
     <h3>Shipment</h3>
         {/* <button style={{position: 'relative', left:900}}>Create</button> */}
@@ -163,8 +168,8 @@ const Shipment = () => {
         <PDFViewer open={openPDFModal} onClose={() => setOpenPDFModal(false)} info={pdfValue}/>
      </div>
    </div>
-
     )
+
 }
 
-export default Shipment
+export default Test2

@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Landingpage from './Components/Landingpage';
 
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +18,9 @@ function App() {
           <Route path="/shipment" element={<Landingpage />} />
           <Route path="/payment" element={<Landingpage />} />
           <Route path="/dashboard" element={<Landingpage />} />
+          <Route path="/test" element={<Landingpage />} />
+          <Route path="/test2" element={<Landingpage />} />
+          <Route path="/test3" element={<Landingpage />} />
           
         </Route>
       </Routes>

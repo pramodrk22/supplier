@@ -11,6 +11,7 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 const PDFViewer = ({open, onClose, info}) => {
     
      const [viewPDF, setViewPDF] = useState('');
+     const pdf = `https://gateway.pinata.cloud/ipfs/${info}`;
 
     // setViewPDF(samplePDF);
 
@@ -19,6 +20,7 @@ const PDFViewer = ({open, onClose, info}) => {
 // console.log('File Size:', Math.round(bin.length / 1024), 'KB');
 // console.log('PDF Version:', bin.match(/^.PDF-([0-9.]+)/)[1]);
     //const docs=[{uri : viewPDF },]
+console.log('row value', info)
 
     useEffect(() => {
         fetch('http://localhost:4000/orders')
@@ -36,11 +38,11 @@ const PDFViewer = ({open, onClose, info}) => {
         <div onClick={onClose} className='overlay'>
         <div onClick={(e) => e.stopPropagation()} className='modal-content-pdf ' >
             
-            <h5>{info[0]} Report</h5>
+            <h5>{} Report</h5>
             <div className='pdf-container'>
                 <Worker workerUrl='http://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js'>
                     {viewPDF && <>
-                        <Viewer fileUrl={viewPDF} plugins={[newplugin]} />
+                        <Viewer fileUrl={pdf} plugins={[newplugin]} />
                     </>}
                     {!viewPDF && <>no PDF</>}
                 </Worker>
