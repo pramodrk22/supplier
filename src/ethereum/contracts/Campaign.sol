@@ -39,6 +39,24 @@ contract Campaign {
 
     SupplierShipment[] public supplierShipments;
 
+
+    struct SupplyChainData {
+        string orderID;
+        string manufacturerName;
+        string supplierName;
+        string invoiceReport;
+        string deliveryRecipt;
+        string logisticsName;
+        string rmReport;
+        string qualityReport;
+        string insuranceReport;
+        string billNo;
+        string billOfLanding;
+        bool status;
+    }
+
+    SupplyChainData[] public supplyChainDatas;
+
     Request[] public requests;
     address public manager;
     uint public minimumContribution;
@@ -84,6 +102,29 @@ contract Campaign {
         newSupplierShipment.deliveryRecipt = deliveryRecipt;
     }
 
+
+    function createManufacturerInvoice(string memory orderId, string memory manufacturerName,string memory supplierName,string memory invoiceReport) public restricted{
+        SupplyChainData storage newSupplyChainData = supplyChainDatas.push();
+        newSupplyChainData.orderID = orderId;
+        newSupplyChainData.manufacturerName = manufacturerName;
+        newSupplyChainData.supplierName = supplierName;
+        newSupplyChainData.invoiceReport = invoiceReport;
+        newSupplyChainData.status = false;
+    }
+
+    function createManufacturerDelivery(string memory deliveryRecipt, uint index, string memory billNo ) public restricted{
+        // SupplyChainData storage newSupplyChainData.orderID[orderID] = supplyChainDatas.push();
+        SupplyChainData storage supplyChainData = supplyChainDatas[index];
+        
+
+        supplyChainData.deliveryRecipt = deliveryRecipt;
+        supplyChainData.billNo = billNo;
+
+    }
+
+    
+
+
     function approveRequest(uint index) public {
         Request storage request = requests[index];
 
@@ -122,5 +163,9 @@ contract Campaign {
 
     function getSupplierShipmentCount() public view returns (uint){
         return supplierShipments.length;
+    }
+
+    function getSupplyChainDataCount() public view returns (uint){
+        return supplyChainDatas.length;
     }
 }

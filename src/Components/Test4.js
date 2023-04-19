@@ -21,8 +21,13 @@ import ShipmentRows from './ShipmentRows';
 
 import { Button, Table } from "semantic-ui-react";
 import Campaign from '../ethereum/campaign'
+import Test4Modal from './Test4Modal';
 
-const Shipment = () => {
+import Test4UploadModal from './Test4UploadModal';
+
+const Test4 = () => {
+  let  parameter = [];
+
   const [rowData, setRowData] = useState(); 
   let rowValue;
   let rowValue2;
@@ -30,15 +35,9 @@ const Shipment = () => {
 
   const [columnDefs, setColumnDefs] = useState([
   {field: 'orderID', headerName: 'OrderID', filter: true, flex: 1, filter: true,floatingFilter: true},
-  {field: 'logisticsProviderName', headerName: 'Logistics Provider', filter: true, flex: 1.5, filter: true,floatingFilter: true},
-    {field: 'status', headerName:'Status', flex:1.5, cellRendererFramework:(params)=> {
-      if(params.data.status){
-        return <p>delivered</p>
-      }else{
-        return <p>not delivered</p>
-      }
-    }},
-    {field:'shipmentDetails', headerName: 'Shipment Details',  flex: 1.5, filter: true,floatingFilter: true, cellRendererFramework:(params)=>{
+  {field: 'manufacturerName', headerName: 'manufacturerName', filter: true, flex: 1.5, filter: true,floatingFilter: true},
+    {field: 'supplierName', headerName:'supplierName', flex:1.5, },
+    {field:'invoiceReport', headerName: 'invoiceReport',  flex: 1.5, filter: true,floatingFilter: true, cellRendererFramework:(params)=>{
       rowValue = params;
       return(
           <div >
@@ -48,27 +47,23 @@ const Shipment = () => {
           
       )
     }},
-    {field:'billOfLanding', headerName: 'Bill Of Landing',  flex: 1.5, cellRendererFramework:(params)=>{
-      rowValue = params;
-        return(
-            <div >
-                <img  src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }}/> &nbsp;&nbsp;
-                <img src={downloadLogo} title="download " onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
-            </div>
-            
-        )
-    }},
-    {field:'Delivery Recipt', headerName:'Delivery Recipt', flex: 1.5, cellRendererFramework:(params)=>{
-      rowValue = params;
-        return(
-            <div>
-
-                <img  src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }} />&nbsp;&nbsp;
-                <img src={downloadLogo} title="download " onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
-            </div>
-            
-        )
-    }},
+    { headerName:'deliveryReciptupload', cellRendererFramework:(params)=>{
+      
+      return(
+          <img src={uploadLogo}  style={{ height: 30, width: 30 }}/>
+      )
+  }},
+  {field: 'deliveryRecipt', headerName:'deliveryRecipt', flex: 1.5, filter: true,floatingFilter: true, cellRendererFramework:(params)=>{
+    //rowValue = params;
+    return(
+        <div >
+            <img  src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }}/> &nbsp;&nbsp;
+            <img src={downloadLogo} title="download " onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
+        </div>
+        
+    )
+  }},
+  {field: 'billNo', headerName:'bill no'}
     
   ]);
 
@@ -81,25 +76,31 @@ const Shipment = () => {
        
   }));
    
-  const [request, setRequest] = useState([])
+ const [request, setRequest] = useState([])
+ const [ans, setAns]  = useState();
+// let objMap = {0: 1st,
+// 1 : 2data};
+//const [obj, setObj] = useState({});
 
  useEffect( () => {
-  const address = '0xc319C7300D77035D567baE92B03B368aF2eE7113'
+  const address = '0x7570EC7802378e3bCCE0fC6c694117955858c430';
   const campaign = Campaign(address);
   console.log('use effect campaign',campaign);
   (async () => {
-    const requestCount = await campaign.methods.getSupplierShipmentCount().call();
+    const requestCount = await campaign.methods.getSupplyChainDataCount().call();
     console.log('req count', requestCount);
     //const approversCount = await campaign.methods.approversCount().call();
+
     const requests = await Promise.all(
       Array(parseInt(requestCount))
         .fill()
         .map((element, index) => {
-          
-          return campaign.methods.supplierShipments(index).call();
+          const req = campaign.methods.supplyChainDatas(index).call();
+          return req;
         })
     );
     setRequest(requests)
+    setAns(requests) ;
     console.log('useeffect requests', requests);
     setRowData(requests);
     return { address, requests, requestCount };
@@ -138,6 +139,42 @@ const Shipment = () => {
     downloadLink.download = fileName;
     downloadLink.click();
  }
+
+ const [openTestModal, setOpenTestModal] = useState(false);
+ const[cellValue, setCellValue] = useState()  ;
+const [testUpload, setTestUpload] = useState();
+
+const onCellClicked = (params) => {
+  console.log('oncell clicked', params.colDef.headerName);
+  setCellValue(params.data.orderID) ;
+  if(params.colDef.headerName == 'deliveryReciptupload'){
+    console.log('asjfl;kdsajflkjdsafl;kdsjfl;kdsj');
+    setOpenTestModal(true);
+    console.log('anssss', ans);
+    let asdfsa = ans.findIndex((e, i) => {
+      console.log('eeeeeee',e, i);
+      return e.orderID === params.data.orderID 
+    })
+    console.log('afdkjalfk',asdfsa);
+    setTestUpload(asdfsa);
+  }
+  
+   
+}
+
+//  const onUploadClicked = () => {
+//   //console.log('object is ', obj.data)
+//   setOpenTestModal(true);
+//   //console.log('upload param',parameter);
+//   console.log('afda', ans);
+
+//   let asdfsa = ans.find((e) => {
+//     console.log('rowvalue ajfasjf',cellValue)
+//     return e.orderID === cellValue ;
+//   })
+//   console.log('afdkjalfk',asdfsa);
+//  }
+
     return(
       <div>
 
@@ -156,17 +193,19 @@ const Shipment = () => {
 
            //animateRows={true} // Optional - set to 'true' to have rows animate when sorted
            
-           //onCellClicked={onCellClicked} 
+           onCellClicked={onCellClicked} 
 
            pagination={true}
         />
 
-        <ShipmentModal open={shipmentCreate} onClose={() => setShipmentCreate(false)} rowInfo={pdfValue}/>
+        <Test4Modal open={shipmentCreate} onClose={() => setShipmentCreate(false)} rowInfo={pdfValue}/>
         <PDFViewer open={openPDFModal} onClose={() => setOpenPDFModal(false)} info={pdfValue}/>
+        <Test4UploadModal open={openTestModal} onClose={() => setOpenTestModal(false)} rowInfo={testUpload}/>
+
      </div>
    </div>
 
     )
 }
 
-export default Shipment
+export default Test4

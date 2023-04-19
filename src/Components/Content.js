@@ -7,6 +7,7 @@ import Dashboard from './OrderDashboard';
 import Test from './Test';
 import Test2 from './Test2';
 import Test3 from './Test3';
+import Test4 from './Test4';
 
 function Content() {
     const location = useLocation();
@@ -20,6 +21,7 @@ function Content() {
             {location && location.pathname === "/test" && <Test />}
             {location && location.pathname === "/test2" && <Test2/>}
             {location && location.pathname === "/test3" && <Test3/>}
+            {location && location.pathname === "/test4" && <Test4/>}
             {/* {location && location.pathname === "/user" && <Employee />}
             {location && location.pathname === "/TransactionHistory" && <TransactionHistory />} */}
         </>
