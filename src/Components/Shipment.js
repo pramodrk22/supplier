@@ -30,7 +30,7 @@ const Shipment = () => {
 
   const [columnDefs, setColumnDefs] = useState([
   {field: 'orderID', headerName: 'OrderID', filter: true, flex: 1, filter: true,floatingFilter: true},
-  {field: 'logisticsProviderName', headerName: 'Logistics Provider', filter: true, flex: 1.5, filter: true,floatingFilter: true},
+  {field: 'logisticsName', headerName: 'Logistics Provider', filter: true, flex: 1.5, filter: true,floatingFilter: true},
     {field: 'status', headerName:'Status', flex:1.5, cellRendererFramework:(params)=> {
       if(params.data.status){
         return <p>delivered</p>
@@ -38,12 +38,12 @@ const Shipment = () => {
         return <p>not delivered</p>
       }
     }},
-    {field:'shipmentDetails', headerName: 'Shipment Details',  flex: 1.5, filter: true,floatingFilter: true, cellRendererFramework:(params)=>{
+    {field:'shipmentDetailsReport', headerName: 'Shipment Details',  flex: 2, filter: true,floatingFilter: true, cellRendererFramework:(params)=>{
       rowValue = params;
       return(
           <div >
               <img  src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }}/> &nbsp;&nbsp;
-              <img src={downloadLogo} title="download " onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
+              <img src={downloadLogo} title="download " onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/> 
           </div>
           
       )
@@ -69,6 +69,15 @@ const Shipment = () => {
             
         )
     }},
+    { headerName:'Upload', flex: 1.5, cellRendererFramework:(params)=>{
+      rowValue = params;
+        return(
+            <div>
+                <img src={uploadLogo} title="upload "  style={{ height: 30, width: 30 }}/>
+            </div>
+            
+        )
+    }},
     
   ]);
 
@@ -82,13 +91,13 @@ const Shipment = () => {
   }));
    
   const [request, setRequest] = useState([])
-
+  const [supplyData, setSupplyData]  = useState();
  useEffect( () => {
-  const address = '0xc319C7300D77035D567baE92B03B368aF2eE7113'
+  const address = '0xBbDaCbEDf32B5cCe669Ccafc580Ac24Bc31b89cf'
   const campaign = Campaign(address);
   console.log('use effect campaign',campaign);
   (async () => {
-    const requestCount = await campaign.methods.getSupplierShipmentCount().call();
+    const requestCount = await campaign.methods.getSupplyChainDataCount().call();
     console.log('req count', requestCount);
     //const approversCount = await campaign.methods.approversCount().call();
     const requests = await Promise.all(
@@ -96,10 +105,11 @@ const Shipment = () => {
         .fill()
         .map((element, index) => {
           
-          return campaign.methods.supplierShipments(index).call();
+          return campaign.methods.supplyChainDatas(index).call();
         })
     );
     setRequest(requests)
+    setSupplyData(requests)
     console.log('useeffect requests', requests);
     setRowData(requests);
     return { address, requests, requestCount };
@@ -138,12 +148,33 @@ const Shipment = () => {
     downloadLink.download = fileName;
     downloadLink.click();
  }
+
+ const [openTestModal, setOpenTestModal] = useState(false);
+ const[cellValue, setCellValue] = useState()  ;
+
+const [arrayIndex, SetArrayIndex] = useState();
+const onCellClicked = (params) => {
+  console.log('oncell clicked', params);
+  setCellValue(params.data.orderID) ;
+  if(params.colDef.headerName == 'Upload'){
+    
+    setShipmentCreate(true);
+    
+    let arrFind = supplyData.findIndex((e, i) => {
+      console.log('eeeeeee',e, i);
+      return e.orderID === params.data.orderID 
+    })
+    console.log('arrFind',arrFind);
+    SetArrayIndex(arrFind);
+  }
+  }
+
     return(
       <div>
 
     <h3>Shipment</h3>
         {/* <button style={{position: 'relative', left:900}}>Create</button> */}
-        <button type="button" class="btn btn-primary mb-2" style={{position: 'absolute', top:'13px', right:'25px'}} onClick={createBtnClicked}>Create</button>
+        {/* <button type="button" class="btn btn-primary mb-2" style={{position: 'absolute', top:'13px', right:'25px'}} onClick={createBtnClicked}>Create</button> */}
      {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
      <div className="ag-theme-alpine" style={{ height: 490, width: 'auto' }}>
 
@@ -156,12 +187,12 @@ const Shipment = () => {
 
            //animateRows={true} // Optional - set to 'true' to have rows animate when sorted
            
-           //onCellClicked={onCellClicked} 
+           onCellClicked={onCellClicked} 
 
            pagination={true}
         />
 
-        <ShipmentModal open={shipmentCreate} onClose={() => setShipmentCreate(false)} rowInfo={pdfValue}/>
+        <ShipmentModal open={shipmentCreate} onClose={() => setShipmentCreate(false)} rowInfo={arrayIndex}/>
         <PDFViewer open={openPDFModal} onClose={() => setOpenPDFModal(false)} info={pdfValue}/>
      </div>
    </div>

@@ -28,7 +28,7 @@ const Test4UploadModal = ({ open, onClose, rowInfo }) => {
 
     const onSubmit = async () => {
     
-        const campaign = Campaign('0x7570EC7802378e3bCCE0fC6c694117955858c430');
+        const campaign = Campaign('0xBbDaCbEDf32B5cCe669Ccafc580Ac24Bc31b89cf');
         const { deliveryRecipt, billNo } = state;
     
         //setState({ ...state, loading: true, errorMessage: "" });

@@ -28,7 +28,7 @@ const Test4Modal = ({open, onClose, rowInfo}) => {
 
   const onSubmit = async () => {
     
-    const campaign = Campaign('0x7570EC7802378e3bCCE0fC6c694117955858c430');
+    const campaign = Campaign('0xBbDaCbEDf32B5cCe669Ccafc580Ac24Bc31b89cf');
     const { orderId, manufacturerName, supplierName, invoiceReport } = state;
 
     //setState({ ...state, loading: true, errorMessage: "" });
@@ -46,7 +46,7 @@ const Test4Modal = ({open, onClose, rowInfo}) => {
         console.log('ipfs hash', ipfsHash);
 
         await campaign.methods
-          .createManufacturerInvoice(orderId, manufacturerName, supplierName, invoiceReport)
+          .createManufacturerInvoice(orderId, manufacturerName, supplierName, ipfsHash)
           .send({
             from: accounts[0],
           });
@@ -66,7 +66,7 @@ const Test4Modal = ({open, onClose, rowInfo}) => {
         <Layout>
             <div  className='overlay'>
             <div onClick={(e) => e.stopPropagation()} className='modal-content ' >
-          <h3>Create a Request</h3>
+          <h3>Create an Order</h3>
 
           <Form onSubmit={onSubmit} error={!!state.errorMessage}>
 

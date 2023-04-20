@@ -12,17 +12,18 @@ import uploadLogo from '../Assets/upload-logo.png';
 
 import PDFViewer from './PDFViewer';
 
+import { Button, Table } from "semantic-ui-react";
+import Campaign from '../ethereum/campaign'
+
 const Payment = () => {
     const [rowData, setRowData] = useState(); // Set rowData to Array of Objects, one Object per Row
 
  // Each Column Definition results in one Column.
  const [columnDefs, setColumnDefs] = useState([
-   {field: 'orderId', headerName: 'Order ID', filter: true, flex: 1.5, filter: true,floatingFilter: true},
-   {field: 'from', headerName: 'From', filter: true, flex: 1.5, filter: true,floatingFilter: true},
-    {field: 'date', headerName:'Date', flex:1.5},
-    { headerName: 'status',  flex: 1.5, filter: true,floatingFilter: true},
-    { headerName: 'Amount',  flex: 1.5, filter: true,floatingFilter: true},
-    { headerName: 'Bill',  flex: 1.5, cellRendererFramework:(params)=>{
+   {field: 'orderID', headerName: 'Order ID', filter: true, flex: 1.5, filter: true,floatingFilter: true},
+   {field: 'manufacturerName', headerName: 'From', filter: true, flex: 1.5, filter: true,floatingFilter: true},
+    {field: 'status', headerName:'Date', flex:1.5},
+    { headerName: 'billOfLanding',  flex: 1.5, cellRendererFramework:(params)=>{
         
         return(
             <div>
@@ -44,14 +45,45 @@ const Payment = () => {
        //resizable: true
   }));
 
-  useEffect(() => {
-    fetch('http://localhost:4000/posts')
-    .then(result => result.json())
-    .then(rowData => setRowData(rowData))
-  }, []);
-
+  // useEffect(() => {
+  //   fetch('http://localhost:4000/posts')
+  //   .then(result => result.json())
+  //   .then(rowData => setRowData(rowData))
+  // }, []);
+  const [request, setRequest] = useState([])
+  const [supplyData, setSupplyData]  = useState();
+ useEffect( () => {
+  const address = '0xBbDaCbEDf32B5cCe669Ccafc580Ac24Bc31b89cf'
+  const campaign = Campaign(address);
+  console.log('use effect campaign',campaign);
+  (async () => {
+    const requestCount = await campaign.methods.getSupplyChainDataCount().call();
+    console.log('req count', requestCount);
+    //const approversCount = await campaign.methods.approversCount().call();
+    const requests = await Promise.all(
+      Array(parseInt(requestCount))
+        .fill()
+        .map((element, index) => {
+          
+          return campaign.methods.supplyChainDatas(index).call();
+        })
+    );
+    setRequest(requests)
+    setSupplyData(requests)
+    console.log('useeffect requests', requests);
+    setRowData(requests);
+    return { address, requests, requestCount };
+  } )();
+  
+    
+    return () => {
+        
+    }
+   
+ },[])
     
   const [openPDFModal, setOpenPDFModal] = useState(false);
+  const [pdfValue, setPdfValue] = useState('');
   const onViewClicked = ()=> {
     //console.log("cell clicked", parameter);
     setOpenPDFModal(true);

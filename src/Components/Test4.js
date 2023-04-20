@@ -46,24 +46,7 @@ const Test4 = () => {
           </div>
           
       )
-    }},
-    { headerName:'deliveryReciptupload', cellRendererFramework:(params)=>{
-      
-      return(
-          <img src={uploadLogo}  style={{ height: 30, width: 30 }}/>
-      )
-  }},
-  {field: 'deliveryRecipt', headerName:'deliveryRecipt', flex: 1.5, filter: true,floatingFilter: true, cellRendererFramework:(params)=>{
-    //rowValue = params;
-    return(
-        <div >
-            <img  src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }}/> &nbsp;&nbsp;
-            <img src={downloadLogo} title="download " onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
-        </div>
-        
-    )
-  }},
-  {field: 'billNo', headerName:'bill no'}
+    }}
     
   ]);
 
@@ -77,13 +60,13 @@ const Test4 = () => {
   }));
    
  const [request, setRequest] = useState([])
- const [ans, setAns]  = useState();
+ const [supplyData, setSupplyData]  = useState();
 // let objMap = {0: 1st,
 // 1 : 2data};
 //const [obj, setObj] = useState({});
 
  useEffect( () => {
-  const address = '0x7570EC7802378e3bCCE0fC6c694117955858c430';
+  const address = '0xBbDaCbEDf32B5cCe669Ccafc580Ac24Bc31b89cf';
   const campaign = Campaign(address);
   console.log('use effect campaign',campaign);
   (async () => {
@@ -100,7 +83,7 @@ const Test4 = () => {
         })
     );
     setRequest(requests)
-    setAns(requests) ;
+    setSupplyData(requests) ;
     console.log('useeffect requests', requests);
     setRowData(requests);
     return { address, requests, requestCount };
@@ -122,9 +105,9 @@ const Test4 = () => {
   const [pdfValue, setPdfValue] = useState('');
   
   const onViewClicked = (params)=> {
-    console.log("cell clicked", rowValue.data.billOfLanding);
+    console.log("cell clicked", rowValue.data);
     //console.log('params view',params)
-    setPdfValue(rowValue.data.billOfLanding);
+    setPdfValue(rowValue.data.invoiceReport);
     setOpenPDFModal(true);
   }
 
@@ -148,15 +131,15 @@ const onCellClicked = (params) => {
   console.log('oncell clicked', params.colDef.headerName);
   setCellValue(params.data.orderID) ;
   if(params.colDef.headerName == 'deliveryReciptupload'){
-    console.log('asjfl;kdsajflkjdsafl;kdsjfl;kdsj');
+    
     setOpenTestModal(true);
-    console.log('anssss', ans);
-    let asdfsa = ans.findIndex((e, i) => {
+    
+    let arrFind = supplyData.findIndex((e, i) => {
       console.log('eeeeeee',e, i);
       return e.orderID === params.data.orderID 
     })
-    console.log('afdkjalfk',asdfsa);
-    setTestUpload(asdfsa);
+    console.log('arrFind',arrFind);
+    setTestUpload(arrFind);
   }
   
    
@@ -178,7 +161,7 @@ const onCellClicked = (params) => {
     return(
       <div>
 
-    <h3>Shipment</h3>
+    <h3>Manufacturer</h3>
         {/* <button style={{position: 'relative', left:900}}>Create</button> */}
         <button type="button" class="btn btn-primary mb-2" style={{position: 'absolute', top:'13px', right:'25px'}} onClick={createBtnClicked}>Create</button>
      {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
@@ -200,7 +183,7 @@ const onCellClicked = (params) => {
 
         <Test4Modal open={shipmentCreate} onClose={() => setShipmentCreate(false)} rowInfo={pdfValue}/>
         <PDFViewer open={openPDFModal} onClose={() => setOpenPDFModal(false)} info={pdfValue}/>
-        <Test4UploadModal open={openTestModal} onClose={() => setOpenTestModal(false)} rowInfo={testUpload}/>
+        {/* <Test4UploadModal open={openTestModal} onClose={() => setOpenTestModal(false)} rowInfo={testUpload}/> */}
 
      </div>
    </div>

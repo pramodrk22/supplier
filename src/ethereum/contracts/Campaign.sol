@@ -16,28 +16,28 @@ contract CampaignFactory {
 }
 
 contract Campaign {
-    struct Request {
-        string orderId;
-        string inspectedby;
-        string approvedby;
-        uint value;
-        string selectedFile;
-        address recipient;
-        bool complete;
-        uint approvalCount;
-        mapping(address => bool) approvals;
-    }
+    // struct Request {
+    //     string orderId;
+    //     string inspectedby;
+    //     string approvedby;
+    //     uint value;
+    //     string selectedFile;
+    //     address recipient;
+    //     bool complete;
+    //     uint approvalCount;
+    //     mapping(address => bool) approvals;
+    // }
 
-    struct SupplierShipment {
-        string orderID;
-        string logisticsProviderName;
-        bool status;
-        string shipmentDetails;
-        string billOfLanding;
-        string deliveryRecipt;
-    }
+    // struct SupplierShipment {
+    //     string orderID;
+    //     string logisticsProviderName;
+    //     bool status;
+    //     string shipmentDetails;
+    //     string billOfLanding;
+    //     string deliveryRecipt;
+    // }
 
-    SupplierShipment[] public supplierShipments;
+    // SupplierShipment[] public supplierShipments;
 
 
     struct SupplyChainData {
@@ -50,18 +50,21 @@ contract Campaign {
         string rmReport;
         string qualityReport;
         string insuranceReport;
-        string billNo;
+        // string inspectedBy;
+        // string approvedBy;
+        string shipmentDetailsReport;
+        // string billNo;
         string billOfLanding;
         bool status;
     }
 
-    SupplyChainData[] public supplyChainDatas;
+     SupplyChainData[] public supplyChainDatas;
 
-    Request[] public requests;
+    // Request[] public requests;
     address public manager;
     uint public minimumContribution;
     mapping(address => bool) public approvers;
-    uint public approversCount;
+    // uint public approversCount;
 
     modifier restricted() {
         require(msg.sender == manager);
@@ -73,35 +76,36 @@ contract Campaign {
         minimumContribution = minimum;
     }
 
-    function contribute() public payable {
-        require(msg.value > minimumContribution);
+    // function contribute() public payable {
+    //     require(msg.value > minimumContribution);
 
-        approvers[msg.sender] = true;
-        approversCount++;
-    }
+    //     approvers[msg.sender] = true;
+    //     approversCount++;
+    // }
 
-    function createRequest(string memory orderId, string memory inspectedby,string memory approvedby, uint value,string memory selectedFile ,address recipient) public restricted {
-        Request storage newRequest = requests.push(); 
-        newRequest.orderId = orderId;
-        newRequest.inspectedby = inspectedby;
-        newRequest.approvedby = approvedby;  
-        newRequest.value= value;
-        newRequest.selectedFile= selectedFile;
-        newRequest.recipient= recipient;
-        newRequest.complete= false;
-        newRequest.approvalCount= 0;
-    }
+    // function createRequest(string memory orderId, string memory inspectedby,string memory approvedby, uint value,string memory selectedFile ,address recipient) public restricted {
+    //     Request storage newRequest = requests.push(); 
+    //     newRequest.orderId = orderId;
+    //     newRequest.inspectedby = inspectedby;
+    //     newRequest.approvedby = approvedby;  
+    //     newRequest.value= value;
+    //     newRequest.selectedFile= selectedFile;
+    //     newRequest.recipient= recipient;
+    //     newRequest.complete= false;
+    //     newRequest.approvalCount= 0;
+    // }
 
-    function createSupplierShipment(string memory orderID, string memory logisticsProviderName,string memory shipmentDetails,string memory billOfLanding, string memory deliveryRecipt) public restricted{
-        SupplierShipment storage newSupplierShipment = supplierShipments.push();
-        newSupplierShipment.orderID = orderID;
-        newSupplierShipment.logisticsProviderName = logisticsProviderName;
-        newSupplierShipment.status = false;
-        newSupplierShipment.shipmentDetails = shipmentDetails;
-        newSupplierShipment.billOfLanding = billOfLanding;
-        newSupplierShipment.deliveryRecipt = deliveryRecipt;
-    }
+    // function createSupplierShipment(string memory orderID, string memory logisticsProviderName,string memory shipmentDetails,string memory billOfLanding, string memory deliveryRecipt) public restricted{
+    //     SupplierShipment storage newSupplierShipment = supplierShipments.push();
+    //     newSupplierShipment.orderID = orderID;
+    //     newSupplierShipment.logisticsProviderName = logisticsProviderName;
+    //     newSupplierShipment.status = false;
+    //     newSupplierShipment.shipmentDetails = shipmentDetails;
+    //     newSupplierShipment.billOfLanding = billOfLanding;
+    //     newSupplierShipment.deliveryRecipt = deliveryRecipt;
+    // }
 
+//***** */
 
     function createManufacturerInvoice(string memory orderId, string memory manufacturerName,string memory supplierName,string memory invoiceReport) public restricted{
         SupplyChainData storage newSupplyChainData = supplyChainDatas.push();
@@ -112,58 +116,85 @@ contract Campaign {
         newSupplyChainData.status = false;
     }
 
-    function createManufacturerDelivery(string memory deliveryRecipt, uint index, string memory billNo ) public restricted{
+
+    function createManufacturerDelivery(string memory deliveryRecipt, uint index ) public restricted{
         // SupplyChainData storage newSupplyChainData.orderID[orderID] = supplyChainDatas.push();
         SupplyChainData storage supplyChainData = supplyChainDatas[index];
-        
 
         supplyChainData.deliveryRecipt = deliveryRecipt;
-        supplyChainData.billNo = billNo;
+        
+    }
+
+    function createSupplierReports(string memory rmReport,string memory qualityReport, string memory insuranceReport, uint index) public restricted{
+        SupplyChainData storage supplyChainData = supplyChainDatas[index];
+
+        supplyChainData.rmReport = rmReport;
+        supplyChainData.qualityReport = qualityReport;
+        supplyChainData.insuranceReport = insuranceReport;
+        // supplyChainData.inspectedBy = inspectedBy;
+         // supplyChainData.approvedBy = approvedBy;
+    }
+
+    function createSupplierShipment(string memory logisticsName, string memory shipmentDetailsReport, uint index) public restricted {
+        SupplyChainData storage supplyChainData = supplyChainDatas[index];
+
+        supplyChainData.logisticsName = logisticsName;
+        supplyChainData.shipmentDetailsReport = shipmentDetailsReport;
 
     }
+
+    function createLogisticsBill( string memory billOfLanding, uint index) public restricted {
+        SupplyChainData storage supplyChainData = supplyChainDatas[index];
+
+    
+        supplyChainData.billOfLanding = billOfLanding;
+
+    }
+
+
 
     
 
 
-    function approveRequest(uint index) public {
-        Request storage request = requests[index];
+    // function approveRequest(uint index) public {
+    //     Request storage request = requests[index];
 
-        require(approvers[msg.sender]);
-        require(!request.approvals[msg.sender]);
+    //     require(approvers[msg.sender]);
+    //     require(!request.approvals[msg.sender]);
 
-        request.approvals[msg.sender] = true;
-        request.approvalCount++;
-    }
+    //     request.approvals[msg.sender] = true;
+    //     request.approvalCount++;
+    // }
 
-    function finalizeRequest(uint index) public restricted {
-        Request storage request = requests[index];
+    // function finalizeRequest(uint index) public restricted {
+    //     Request storage request = requests[index];
 
-        require(request.approvalCount > (approversCount / 2));
-        require(!request.complete);
+    //     require(request.approvalCount > (approversCount / 2));
+    //     require(!request.complete);
 
-        payable(request.recipient).transfer(request.value);
-        request.complete = true;
-    }
+    //     payable(request.recipient).transfer(request.value);
+    //     request.complete = true;
+    // }
     
-    function getSummary() public view returns (
-      uint, uint, uint, uint, address
-      ) {
-        return (
-          minimumContribution,
-          address(this).balance,
-          requests.length,
-          approversCount,
-          manager
-        );
-    }
+    // function getSummary() public view returns (
+    //   uint, uint, uint, uint, address
+    //   ) {
+    //     return (
+    //       minimumContribution,
+    //       address(this).balance,
+    //       requests.length,
+    //       approversCount,
+    //       manager
+    //     );
+    // }
     
-    function getRequestsCount() public view returns (uint) {
-        return requests.length;
-    }
+    // function getRequestsCount() public view returns (uint) {
+    //     return requests.length;
+    // }
 
-    function getSupplierShipmentCount() public view returns (uint){
-        return supplierShipments.length;
-    }
+    // function getSupplierShipmentCount() public view returns (uint){
+    //     return supplierShipments.length;
+    // }
 
     function getSupplyChainDataCount() public view returns (uint){
         return supplyChainDatas.length;

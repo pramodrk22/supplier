@@ -19,19 +19,15 @@ const ShipmentModal = ({open, onClose, rowInfo}) => {
   const ipfs = ipfsClient({ host: 'ipfs.infura.io',port: 5001,protocol: 'https',headers: {authorization: auth,}, });
   
   const [state, setState] = useState({
-    orderId: "",
-    logistcsProviderName: '',
-    status: false,
-    shipmentDetails:'',
-    billOfLanding:'',
-    deliveryRecipt: ''
+    logisticsName: '',
+    shipmentDetailsReport: '',
   })
   if(!open) return null
 
   const onSubmit = async () => {
     
-    const campaign = Campaign('0xc319C7300D77035D567baE92B03B368aF2eE7113');
-    const { orderId, logistcsProviderName, status, shipmentDetails, billOfLanding, deliveryRecipt } = state;
+    const campaign = Campaign('0xBbDaCbEDf32B5cCe669Ccafc580Ac24Bc31b89cf');
+    const { logisticsName, shipmentDetailsReport } = state;
 
     //setState({ ...state, loading: true, errorMessage: "" });
 
@@ -43,13 +39,12 @@ const ShipmentModal = ({open, onClose, rowInfo}) => {
           return result.path;
         };
 
-        const ipfsHash = await addPdfToIpfs(shipmentDetails);
-        const ipfsHash2 = await addPdfToIpfs(billOfLanding);
-        const ipfsHash3 = await addPdfToIpfs(deliveryRecipt);
+        const ipfsHash = await addPdfToIpfs(shipmentDetailsReport);
+      
         console.log('ipfs hash', ipfsHash);
 
         await campaign.methods
-          .createSupplierShipment(orderId, logistcsProviderName, ipfsHash, ipfsHash2, ipfsHash3)
+          .createSupplierShipment(logisticsName, ipfsHash,rowInfo)
           .send({
             from: accounts[0],
           });
@@ -74,51 +69,26 @@ const ShipmentModal = ({open, onClose, rowInfo}) => {
           <Form onSubmit={onSubmit} error={!!state.errorMessage}>
 
           <Form.Field>
-            <label>Order Id</label>
+            <label>logisticsName</label>
             <Input
-              value={state.orderId}
+              value={state.logisticsName}
               onChange={(event) =>
-                setState({ ...state, orderId: event.target.value })
+                setState({ ...state, logisticsName: event.target.value })
               }
             />
           </Form.Field>
           
-          <Form.Field>
-            <label>Logistics Provider</label>
-            <Input
-              value={state.logistcsProviderName}
-              onChange={(event) =>
-                setState({ ...state, logistcsProviderName: event.target.value })
-              }
-            />
-          </Form.Field>
+          
           <Form.Field>
             <label>Shipment Details</label>
             <Input
               type="file"
               onChange={(event) =>
-                setState({ ...state, shipmentDetails: event.target.files[0] })
+                setState({ ...state, shipmentDetailsReport: event.target.files[0] })
               }
             />
           </Form.Field>
-          <Form.Field>
-            <label>Bill Of Landing</label>
-            <Input
-              type="file"
-              onChange={(event) =>
-                setState({ ...state, billOfLanding: event.target.files[0] })
-              }
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Delivery Recipt</label>
-            <Input
-              type="file"
-              onChange={(event) =>
-                setState({ ...state, deliveryRecipt: event.target.files[0] })
-              }
-            />
-          </Form.Field>
+          
             <Message error  content={state.errorMessage} />
             <Button primary loading={state.loading}>
               Create!

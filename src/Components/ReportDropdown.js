@@ -28,9 +28,10 @@ const ReportDropdown = ({param, selectValue}) => {
     // };
  const onFormSelect = () => {
     var e = document.getElementById("dropSelect");
+console.log('akfdj;lsjafkldjsf',e.value )
     //console.log("the class name",document.getElementsByClassName("dropSelect"))
     var value = e.value;
-    console.log("form select", value);
+    //console.log("form select", value);
     selectValue(value);
  }
  
@@ -39,10 +40,9 @@ const ReportDropdown = ({param, selectValue}) => {
    <div>
     <form >
         <select name="optionValue" id="dropSelect" onInput={onFormSelect}>
-            <option value="RM">RM </option>
-            <option value="Finished Goods">Finished Goods </option>
-            <option value="Quality">Quality </option>
-            <option value="Insurance">Insurance </option>
+            <option value="rmReport">RM </option>
+            <option value="qualityReport">Quality </option>
+            <option value="insuranceReport">Insurance </option>
         </select>
     </form>
         
