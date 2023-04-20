@@ -19,7 +19,7 @@ const OrderListModal = ({open, onClose, rowInfo}) => {
   const ipfs = ipfsClient({ host: 'ipfs.infura.io',port: 5001,protocol: 'https',headers: {authorization: auth,}, });
 
   const [state, setState] = useState({
-      orderId: "",
+      orderID: "",
       manufacturerName: "",
       logisticsName: "",
       invoiceReport:"",
@@ -39,7 +39,7 @@ const OrderListModal = ({open, onClose, rowInfo}) => {
       event.preventDefault();
       const campaign = Campaign('0x780c66A89ae42514c9e54bb7Ce95Dff7A5332816');
       //const campaign = '0xe8388FDB4e61074227778b3BcB799df776c13C6F';
-      const { orderId, manufacturerName, logisticsName, invoiceReport} = state;
+      const { orderID, manufacturerName, logisticsName, invoiceReport} = state;
   
       setState({ ...state, loading: true, errorMessage: "" });
 
@@ -54,7 +54,7 @@ const OrderListModal = ({open, onClose, rowInfo}) => {
         console.log('ipfs hash', ipfsHash);
         debugger;
         await campaign.methods
-          .createRequest(orderId, manufacturerName, logisticsName,ipfsHash)
+          .createRequest(orderID, manufacturerName, logisticsName,ipfsHash)
           .send({ from: accounts[0] });
           console.log("dsf");
         // Router.pushRoute(`/campaigns/${this.props.address}/requests`);
@@ -74,14 +74,14 @@ const OrderListModal = ({open, onClose, rowInfo}) => {
   
               <Form.Field>
   
-                <label>OrderID</label>
+                <label>orderID</label>
   
                 <Input
   
-                  value={state.orderId}
+                  value={state.orderID}
   
                   onChange={(event) =>
-                    setState({ ...state, orderId: event.target.value })
+                    setState({ ...state, orderID: event.target.value })
                   }
                 />
               </Form.Field>

@@ -100,8 +100,8 @@
 //     const [rowData, setRowData] = useState()
 
 //     const [columnDefs] = useState([
-//         { field: 'orderId', headerName: 'Order ID', filter: true, sortable: true, checkboxSelection: true, headerCheckboxSelection: true, floatingFilter: true, flex: 1 },
-//         // { field: 'orderId', headerName: 'Order ID', filter: true, sortable: true, floatingFilter: true, flex: 1 },
+//         { field: 'orderID', headerName: 'Order ID', filter: true, sortable: true, checkboxSelection: true, headerCheckboxSelection: true, floatingFilter: true, flex: 1 },
+//         // { field: 'orderID', headerName: 'Order ID', filter: true, sortable: true, floatingFilter: true, flex: 1 },
 //         { field: 'from', filter: true, sortable: true, floatingFilter: true, flex: 1.50 },
 //         { field: 'date', filter: true, sortable: true, floatingFilter: true, flex: 1.50  },
 //         { field: 'status', filter: true, sortable: true, floatingFilter: true, flex: 1 },
@@ -224,14 +224,12 @@ function Table() {
   }
   const [campaigns, setCampaigns] = useState([]);
   // const address = '0x3B9913F0BA1e1bea71f8dc1266046Cc87c1B5cD1';
-  const [request, setRequest] = useState([])
-
   const removeRenderer = memo((props) => {
     return <i class="fa fa-times-circle"></i>;
   });
   const [rowData, setRowData] = useState()
   const [columnDefs] = useState([
-    { field: 'orderId', headerName: 'Order ID', filter: true, flex: 1, filter: true, floatingFilter: true },
+    { field: 'orderID', headerName: 'Order ID', filter: true, flex: 1, filter: true, floatingFilter: true },
     { field: 'manufacturerName', headerName: 'Manufacturer Name', filter: true, flex: 1, filter: true, floatingFilter: true },
     { field: 'logisticsName', headerName: 'Logistics Name', flex: 1.5, filter: true, floatingFilter: true },
     { field: 'status', headerName: 'Status', flex: 0.75, filter: true, floatingFilter: true },
@@ -249,29 +247,37 @@ function Table() {
       }
     },
   ]);
-  useEffect(() => {
+  const [request, setRequest] = useState([])
+  const [supplyData, setSupplyData]  = useState();
+   useEffect( () => {
     const address = '0x780c66A89ae42514c9e54bb7Ce95Dff7A5332816'
     const campaign = Campaign(address);
-    console.log('use effect campaign', campaign);
+    console.log('use effect campaign',campaign);
     (async () => {
-      const requestCount = await campaign.methods.getRequestsCount().call();
+      const requestCount = await campaign.methods.getSupplyChainDataCount().call();
       console.log('req count', requestCount);
-      const approversCount = await campaign.methods.approversCount().call();
+      //const approversCount = await campaign.methods.approversCount().call();
       const requests = await Promise.all(
         Array(parseInt(requestCount))
           .fill()
           .map((element, index) => {
-
-            return campaign.methods.requests(index).call();
+            
+            return campaign.methods.supplyChainDatas(index).call();
           })
       );
       setRequest(requests)
+      setSupplyData(requests)
       console.log('useeffect requests', requests);
-      return { address, requests, requestCount, approversCount };
-    })();
-    return () => {
-    }
-  }, [])
+      setRowData(requests);
+      return { address, requests, requestCount };
+    } )();
+    
+      
+      return () => {
+          
+      }
+     
+   },[])
   const [shipmentCreate, setShipmentCreate] = useState(false);
   const createBtnClicked = () => {
     setShipmentCreate(true);
@@ -292,7 +298,7 @@ function Table() {
           <AgGridReact style={{ width: '100%', height: '100%;' }}
             ref={gridRef}
             columnDefs={columnDefs}
-            rowData={request}
+            rowData={rowData}
             pagination={true}
             paginationPageSize={8}>
           </AgGridReact>

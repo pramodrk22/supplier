@@ -12,20 +12,19 @@ function Card() {
         const campaign = Campaign(address);
         console.log('use effect campaign', campaign);
         (async () => {
-            const requestCount = await campaign.methods.getRequestsCount().call();
+            const requestCount = await campaign.methods.getSupplyChainDataCount().call();
             console.log('req count', requestCount);
-            const approversCount = await campaign.methods.approversCount().call();
             const requests = await Promise.all(
                 Array(parseInt(requestCount))
                     .fill()
                     .map((element, index) => {
-                        return campaign.methods.requests(index).call();
+                        return campaign.methods.supplyChainDatas(index).call();
                     })
             );
             //   setRequest(requests)
             setCount(requestCount)
             console.log('useeffect requests', requestCount, requests);
-            return { address, requests, requestCount, approversCount };
+            return { address, requests, requestCount};
         })();
         return () => {
         }
