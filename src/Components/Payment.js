@@ -22,7 +22,13 @@ const Payment = () => {
  const [columnDefs, setColumnDefs] = useState([
    {field: 'orderID', headerName: 'Order ID', filter: true, flex: 1.5, filter: true,floatingFilter: true},
    {field: 'manufacturerName', headerName: 'From', filter: true, flex: 1.5, filter: true,floatingFilter: true},
-    {field: 'status', headerName:'Date', flex:1.5},
+    {field: 'status', headerName:'Status', flex:1.5, cellRendererFramework:(params)=> {
+      if(params.data.status){
+        return <p>delivered</p>
+      }else{
+        return <p>in progress</p>
+      }}},
+
     { headerName: 'billOfLanding',  flex: 1.5, cellRendererFramework:(params)=>{
         
         return(
@@ -84,6 +90,7 @@ const Payment = () => {
     
   const [openPDFModal, setOpenPDFModal] = useState(false);
   const [pdfValue, setPdfValue] = useState('');
+
   const onViewClicked = ()=> {
     //console.log("cell clicked", parameter);
     setOpenPDFModal(true);
@@ -123,7 +130,7 @@ const Payment = () => {
            pagination={true}
         />
 
-        <PDFViewer open={openPDFModal} onClose={() => setOpenPDFModal(false)} info={[1]}/>
+        <PDFViewer open={openPDFModal} onClose={() => setOpenPDFModal(false)} />
         
      </div>
    </div>

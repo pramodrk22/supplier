@@ -140,7 +140,7 @@ const Modal = ({ open, onClose, rowInfo }) => {
           <Form onSubmit={onSubmit} error={!!state.errorMessage}>
 
           <Form.Field>
-            <label>rmReport</label>
+            <label>RM Report</label>
             <Input
               type="file"
               onChange={(event) =>
@@ -148,9 +148,10 @@ const Modal = ({ open, onClose, rowInfo }) => {
               }
             />
           </Form.Field>
+          <br/>
           
           <Form.Field>
-            <label>qualityReport</label>
+            <label>Quality Report</label>
             <Input
               type="file"
               onChange={(event) =>
@@ -158,9 +159,10 @@ const Modal = ({ open, onClose, rowInfo }) => {
               }
             />
           </Form.Field>
+          <br/>
           
           <Form.Field>
-            <label>insuranceReport</label>
+            <label>Insurance Report</label>
             <Input
               type="file"
               onChange={(event) =>
@@ -168,8 +170,10 @@ const Modal = ({ open, onClose, rowInfo }) => {
               }
             />
           </Form.Field>
+          <br/>
           
             <Message error  content={state.errorMessage} />
+            <br/>
             <Button primary loading={state.loading}>
               Create!
             </Button>

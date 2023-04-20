@@ -122,6 +122,7 @@ contract Campaign {
         SupplyChainData storage supplyChainData = supplyChainDatas[index];
 
         supplyChainData.deliveryRecipt = deliveryRecipt;
+        supplyChainData.status = true;
         
     }
 

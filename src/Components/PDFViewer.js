@@ -12,6 +12,8 @@ const PDFViewer = ({open, onClose, info}) => {
     
      const [viewPDF, setViewPDF] = useState('');
      const pdf = `https://gateway.pinata.cloud/ipfs/${info}`;
+     //const pdf = `https://gateway.pinata.cloud/ipfs/QmaNxbQNrJdLzzd8CKRutBjMZ6GXRjvuPepLuNSsfdeJRJ`;
+    
 
     // setViewPDF(samplePDF);
 
@@ -22,14 +24,14 @@ const PDFViewer = ({open, onClose, info}) => {
     //const docs=[{uri : viewPDF },]
 console.log('row value', info)
 
-    useEffect(() => {
-        fetch('http://localhost:4000/orders')
-        .then((response) => response.json())
-        .then((data)=> {
-            console.log(data[0]);
-            setViewPDF(data[0].pdf)
-        })
-    })
+    // useEffect(() => {
+    //     fetch('http://localhost:4000/orders')
+    //     .then((response) => response.json())
+    //     .then((data)=> {
+    //         console.log(data[0]);
+    //         setViewPDF(data[0].pdf)
+    //     })
+    // })
     const newplugin = defaultLayoutPlugin();
 
     if(!open) return null
@@ -41,10 +43,10 @@ console.log('row value', info)
             <h5>{} Report</h5>
             <div className='pdf-container'>
                 <Worker workerUrl='http://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js'>
-                    {viewPDF && <>
+                    {pdf && <>
                         <Viewer fileUrl={pdf} plugins={[newplugin]} />
                     </>}
-                    {!viewPDF && <>no PDF</>}
+                    {/* {!viewPDF && <>no PDF</>} */}
                 </Worker>
                 {/* <DocViewer pluginRenderers={DocViewerRenderers} documents={docs} /> */}
 

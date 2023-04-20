@@ -30,15 +30,15 @@ const Shipment = () => {
 
   const [columnDefs, setColumnDefs] = useState([
   {field: 'orderID', headerName: 'OrderID', filter: true, flex: 1, filter: true,floatingFilter: true},
-  {field: 'logisticsName', headerName: 'Logistics Provider', filter: true, flex: 1.5, filter: true,floatingFilter: true},
-    {field: 'status', headerName:'Status', flex:1.5, cellRendererFramework:(params)=> {
+  {field: 'logisticsName', headerName: 'Logistics Provider', filter: true, flex: 1, filter: true,floatingFilter: true},
+    {field: 'status', headerName:'Status', flex:1, cellRendererFramework:(params)=> {
       if(params.data.status){
         return <p>delivered</p>
       }else{
-        return <p>not delivered</p>
+        return <p>In progress</p>
       }
     }},
-    {field:'shipmentDetailsReport', headerName: 'Shipment Details',  flex: 2, filter: true,floatingFilter: true, cellRendererFramework:(params)=>{
+    {field:'shipmentDetailsReport', headerName: 'Shipment Details',  flex: 1, filter: true,floatingFilter: true, cellRendererFramework:(params)=>{
       rowValue = params;
       return(
           <div >
@@ -48,7 +48,7 @@ const Shipment = () => {
           
       )
     }},
-    {field:'billOfLanding', headerName: 'Bill Of Landing',  flex: 1.5, cellRendererFramework:(params)=>{
+    {field:'billOfLanding', headerName: 'Bill Of Landing',  flex: 1, cellRendererFramework:(params)=>{
       rowValue = params;
         return(
             <div >
@@ -58,7 +58,7 @@ const Shipment = () => {
             
         )
     }},
-    {field:'Delivery Recipt', headerName:'Delivery Recipt', flex: 1.5, cellRendererFramework:(params)=>{
+    {field:'Delivery Recipt', headerName:'Delivery Recipt', flex: 1, cellRendererFramework:(params)=>{
       rowValue = params;
         return(
             <div>
@@ -73,7 +73,8 @@ const Shipment = () => {
       rowValue = params;
         return(
             <div>
-                <img src={uploadLogo} title="upload "  style={{ height: 30, width: 30 }}/>
+              <button class="btn btn-primary mb-2 "  >Shipment Request</button>
+                {/* <img src={uploadLogo} title="upload "  style={{ height: 30, width: 30 }}/> */}
             </div>
             
         )
@@ -193,7 +194,7 @@ const onCellClicked = (params) => {
         />
 
         <ShipmentModal open={shipmentCreate} onClose={() => setShipmentCreate(false)} rowInfo={arrayIndex}/>
-        <PDFViewer open={openPDFModal} onClose={() => setOpenPDFModal(false)} info={pdfValue}/>
+        <PDFViewer open={openPDFModal} onClose={() => setOpenPDFModal(false)} />
      </div>
    </div>
 

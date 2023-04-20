@@ -69,7 +69,7 @@ const ShipmentModal = ({open, onClose, rowInfo}) => {
           <Form onSubmit={onSubmit} error={!!state.errorMessage}>
 
           <Form.Field>
-            <label>logisticsName</label>
+            <label>Logistics Name</label>
             <Input
               value={state.logisticsName}
               onChange={(event) =>
@@ -77,7 +77,7 @@ const ShipmentModal = ({open, onClose, rowInfo}) => {
               }
             />
           </Form.Field>
-          
+          <br/>
           
           <Form.Field>
             <label>Shipment Details</label>
@@ -88,8 +88,9 @@ const ShipmentModal = ({open, onClose, rowInfo}) => {
               }
             />
           </Form.Field>
-          
+          <br/>
             <Message error  content={state.errorMessage} />
+            <br/>
             <Button primary loading={state.loading}>
               Create!
             </Button>
