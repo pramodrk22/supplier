@@ -36,7 +36,7 @@ const Modal = ({ open, onClose, rowInfo }) => {
 
   const onSubmit = async () => {
     
-    const campaign = Campaign('0xBbDaCbEDf32B5cCe669Ccafc580Ac24Bc31b89cf');
+    const campaign = Campaign('0x780c66A89ae42514c9e54bb7Ce95Dff7A5332816');
     const { rmReport, qualityReport, insuranceReport} = state;
 
     //setState({ ...state, loading: true, errorMessage: "" });

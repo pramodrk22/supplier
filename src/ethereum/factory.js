@@ -6,7 +6,7 @@ import { ethers } from 'ethers';
 
 const instance = new web3.eth.Contract(
   CampaignFactory.abi,
-  "0x1E1dF7C0636b05C2a4E2d07E3E81A80345E3f20E"
+  "0x4AB8A6Ff853f6f4B5B722fb0f3Fd34a3fb7E99fF"
 );
 //  const provider = new ethers.providers.Web3Provider(window.ethereum)
 // //   const keepersContract = new ethers.Contract(keepersContractAddress, keeperContractABI, provider);

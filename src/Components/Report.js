@@ -47,7 +47,7 @@ const Report = () => {
 //                 );
 //     }},
 {field: 'rmReport', headerName: 'RM Report', filter: true, flex: 1.5, cellRendererFramework:(params)=>{
-    parameter = params;
+    //parameter = params;
     return(
         <div>
             <img src={eye} style={{ height: 35, width: 30 }} data-view={params.data.rmReport} data-col={params.colDef.headerName} 
@@ -82,9 +82,6 @@ const Report = () => {
 }},
     { headerName:'Upload', flex:1.5, cellRendererFramework:()=>{
         return(
-            // <Link to="/" >
-            //     <img src={eye}  />
-            // </Link>
             <img src={uploadLogo} style={{ height: 30, width: 30 }} />
         )
     }}
@@ -114,7 +111,7 @@ const Report = () => {
 const [request, setRequest] = useState([])
 const [supplyData, setSupplyData]  = useState();
  useEffect( () => {
-  const address = '0xBbDaCbEDf32B5cCe669Ccafc580Ac24Bc31b89cf'
+  const address = '0x780c66A89ae42514c9e54bb7Ce95Dff7A5332816'
   const campaign = Campaign(address);
   console.log('use effect campaign',campaign);
   (async () => {
