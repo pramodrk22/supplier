@@ -107,7 +107,7 @@ contract Campaign {
 
 //***** */
 
-    function createManufacturerInvoice(string memory orderId, string memory manufacturerName,string memory supplierName,string memory invoiceReport) public restricted{
+    function createManufacturerInvoice(string memory orderId, string memory manufacturerName,string memory supplierName,string memory invoiceReport) public {
         SupplyChainData storage newSupplyChainData = supplyChainDatas.push();
         newSupplyChainData.orderID = orderId;
         newSupplyChainData.manufacturerName = manufacturerName;
@@ -117,7 +117,7 @@ contract Campaign {
     }
 
 
-    function createManufacturerDelivery(string memory deliveryRecipt, uint index ) public restricted{
+    function createManufacturerDelivery(string memory deliveryRecipt, uint index ) public {
         // SupplyChainData storage newSupplyChainData.orderID[orderID] = supplyChainDatas.push();
         SupplyChainData storage supplyChainData = supplyChainDatas[index];
 
@@ -126,7 +126,7 @@ contract Campaign {
         
     }
 
-    function createSupplierReports(string memory rmReport,string memory qualityReport, string memory insuranceReport, uint index) public restricted{
+    function createSupplierReports(string memory rmReport,string memory qualityReport, string memory insuranceReport, uint index) public  {
         SupplyChainData storage supplyChainData = supplyChainDatas[index];
 
         supplyChainData.rmReport = rmReport;
@@ -136,7 +136,7 @@ contract Campaign {
          // supplyChainData.approvedBy = approvedBy;
     }
 
-    function createSupplierShipment(string memory logisticsName, string memory shipmentDetailsReport, uint index) public restricted {
+    function createSupplierShipment(string memory logisticsName, string memory shipmentDetailsReport, uint index) public  {
         SupplyChainData storage supplyChainData = supplyChainDatas[index];
 
         supplyChainData.logisticsName = logisticsName;
@@ -144,7 +144,7 @@ contract Campaign {
 
     }
 
-    function createLogisticsBill( string memory billOfLanding, uint index) public restricted {
+    function createLogisticsBill( string memory billOfLanding, uint index) public  {
         SupplyChainData storage supplyChainData = supplyChainDatas[index];
 
     

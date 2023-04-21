@@ -43,9 +43,9 @@ console.log('row value', info)
             <h5>{} Report</h5>
             <div className='pdf-container'>
                 <Worker workerUrl='http://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js'>
-                    {pdf && <>
+                    
                         <Viewer fileUrl={pdf} plugins={[newplugin]} />
-                    </>}
+                    
                     {/* {!viewPDF && <>no PDF</>} */}
                 </Worker>
                 {/* <DocViewer pluginRenderers={DocViewerRenderers} documents={docs} /> */}

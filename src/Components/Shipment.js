@@ -22,6 +22,9 @@ import ShipmentRows from './ShipmentRows';
 import { Button, Table } from "semantic-ui-react";
 import Campaign from '../ethereum/campaign'
 
+import axios from 'axios';
+import fileDownload from 'js-file-download';
+
 const Shipment = () => {
   const [rowData, setRowData] = useState(); 
   let rowValue;
@@ -42,8 +45,10 @@ const Shipment = () => {
       rowValue = params;
       return(
           <div >
-              <img  src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }}/> &nbsp;&nbsp;
-              <img src={downloadLogo} title="download " onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/> 
+              <img  src={eye} title="view" data-view={params.data.shipmentDetailsReport} data-col={params.colDef.headerName} 
+              onClick={onViewClicked} style={{ height: 35, width: 30 }}/> &nbsp;&nbsp;
+              <img src={downloadLogo} title="download " data-download={params.data.shipmentDetailsReport} data-col={params.colDef.headerName}
+              onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/> 
           </div>
           
       )
@@ -52,19 +57,22 @@ const Shipment = () => {
       rowValue = params;
         return(
             <div >
-                <img  src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }}/> &nbsp;&nbsp;
-                <img src={downloadLogo} title="download " onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
+                <img  src={eye} title="view" data-view={params.data.billOfLanding} data-col={params.colDef.headerName}
+                onClick={onViewClicked} style={{ height: 35, width: 30 }}/> &nbsp;&nbsp;
+                <img src={downloadLogo} title="download " data-download={params.data.billOfLanding} data-col={params.colDef.headerName}
+                onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
             </div>
             
         )
     }},
-    {field:'Delivery Recipt', headerName:'Delivery Recipt', flex: 1, cellRendererFramework:(params)=>{
+    {field:'deliveryRecipt', headerName:'Delivery Recipt', flex: 1, cellRendererFramework:(params)=>{
       rowValue = params;
         return(
             <div>
-
-                <img  src={eye} title="view" onClick={onViewClicked} style={{ height: 35, width: 30 }} />&nbsp;&nbsp;
-                <img src={downloadLogo} title="download " onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
+                <img  src={eye} title="view" data-view={params.data.deliveryRecipt} data-col={params.colDef.headerName}
+                onClick={onViewClicked} style={{ height: 35, width: 30 }}/> &nbsp;&nbsp;
+                <img src={downloadLogo} title="download " data-download={params.data.deliveryRecipt} data-col={params.colDef.headerName}
+                onClick={onDownloadClicked} style={{ height: 30, width: 30 }}/>
             </div>
             
         )
@@ -94,7 +102,7 @@ const Shipment = () => {
   const [request, setRequest] = useState([])
   const [supplyData, setSupplyData]  = useState();
  useEffect( () => {
-  const address = '0x780c66A89ae42514c9e54bb7Ce95Dff7A5332816'
+  const address = '0x8A59B3f39129379D39eC22cA815cA726BB395338'
   const campaign = Campaign(address);
   console.log('use effect campaign',campaign);
   (async () => {
@@ -132,23 +140,52 @@ const Shipment = () => {
   const [pdfValue, setPdfValue] = useState('');
   
   const onViewClicked = (params)=> {
-    console.log("cell clicked", rowValue.data.billOfLanding);
-    //console.log('params view',params)
-    setPdfValue(rowValue.data.billOfLanding);
+    console.log('params viewwwww', params.target.getAttribute('data-view'));
+    console.log('params collll', params.target.getAttribute('data-col'));
+    if(params.target.getAttribute('data-col') == 'Shipment Details'){
+        setPdfValue(params.target.getAttribute('data-view'))
+    }
+    if(params.target.getAttribute('data-col') == 'Bill Of Landing'){
+        setPdfValue(params.target.getAttribute('data-view'))
+    }
+    if(params.target.getAttribute('data-col') == 'Delivery Recipt'){
+        setPdfValue(params.target.getAttribute('data-view'))
+    }
+    //console.log('parameterrrrrr', parameter);
+    //console.log("cell clicked", parameter);
     setOpenPDFModal(true);
-  }
 
-  const onDownloadClicked = () => {
-    var pdf="data:application/pdf;base64,JVBERi0xLjMNCiXi48/TDQoNCjEgMCBvYmoNCjw8DQovVHlwZSAvQ2F0YWxvZw0KL091dGxpbmVzIDIgMCBSDQovUGFnZXMgMyAwIFINCj4+DQplbmRvYmoNCg0KMiAwIG9iag0KPDwNCi9UeXBlIC9PdXRsaW5lcw0KL0NvdW50IDANCj4+DQplbmRvYmoNCg0KMyAwIG9iag0KPDwNCi9UeXBlIC9QYWdlcw0KL0NvdW50IDINCi9LaWRzIFsgNCAwIFIgNiAwIFIgXSANCj4+DQplbmRvYmoNCg0KNCAwIG9iag0KPDwNCi9UeXBlIC9QYWdlDQovUGFyZW50IDMgMCBSDQovUmVzb3VyY2VzIDw8DQovRm9udCA8PA0KL0YxIDkgMCBSIA0KPj4NCi9Qcm9jU2V0IDggMCBSDQo+Pg0KL01lZGlhQm94IFswIDAgNjEyLjAwMDAgNzkyLjAwMDBdDQovQ29udGVudHMgNSAwIFINCj4+DQplbmRvYmoNCg0KNSAwIG9iag0KPDwgL0xlbmd0aCAxMDc0ID4+DQpzdHJlYW0NCjIgSg0KQlQNCjAgMCAwIHJnDQovRjEgMDAyNyBUZg0KNTcuMzc1MCA3MjIuMjgwMCBUZA0KKCBBIFNpbXBsZSBQREYgRmlsZSApIFRqDQpFVA0KQlQNCi9GMSAwMDEwIFRmDQo2OS4yNTAwIDY4OC42MDgwIFRkDQooIFRoaXMgaXMgYSBzbWFsbCBkZW1vbnN0cmF0aW9uIC5wZGYgZmlsZSAtICkgVGoNCkVUDQpCVA0KL0YxIDAwMTAgVGYNCjY5LjI1MDAgNjY0LjcwNDAgVGQNCigganVzdCBmb3IgdXNlIGluIHRoZSBWaXJ0dWFsIE1lY2hhbmljcyB0dXRvcmlhbHMuIE1vcmUgdGV4dC4gQW5kIG1vcmUgKSBUag0KRVQNCkJUDQovRjEgMDAxMCBUZg0KNjkuMjUwMCA2NTIuNzUyMCBUZA0KKCB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiApIFRqDQpFVA0KQlQNCi9GMSAwMDEwIFRmDQo2OS4yNTAwIDYyOC44NDgwIFRkDQooIEFuZCBtb3JlIHRleHQuIEFuZCBtb3JlIHRleHQuIEFuZCBtb3JlIHRleHQuIEFuZCBtb3JlIHRleHQuIEFuZCBtb3JlICkgVGoNCkVUDQpCVA0KL0YxIDAwMTAgVGYNCjY5LjI1MDAgNjE2Ljg5NjAgVGQNCiggdGV4dC4gQW5kIG1vcmUgdGV4dC4gQm9yaW5nLCB6enp6ei4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kICkgVGoNCkVUDQpCVA0KL0YxIDAwMTAgVGYNCjY5LjI1MDAgNjA0Ljk0NDAgVGQNCiggbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiApIFRqDQpFVA0KQlQNCi9GMSAwMDEwIFRmDQo2OS4yNTAwIDU5Mi45OTIwIFRkDQooIEFuZCBtb3JlIHRleHQuIEFuZCBtb3JlIHRleHQuICkgVGoNCkVUDQpCVA0KL0YxIDAwMTAgVGYNCjY5LjI1MDAgNTY5LjA4ODAgVGQNCiggQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgKSBUag0KRVQNCkJUDQovRjEgMDAxMCBUZg0KNjkuMjUwMCA1NTcuMTM2MCBUZA0KKCB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBFdmVuIG1vcmUuIENvbnRpbnVlZCBvbiBwYWdlIDIgLi4uKSBUag0KRVQNCmVuZHN0cmVhbQ0KZW5kb2JqDQoNCjYgMCBvYmoNCjw8DQovVHlwZSAvUGFnZQ0KL1BhcmVudCAzIDAgUg0KL1Jlc291cmNlcyA8PA0KL0ZvbnQgPDwNCi9GMSA5IDAgUiANCj4+DQovUHJvY1NldCA4IDAgUg0KPj4NCi9NZWRpYUJveCBbMCAwIDYxMi4wMDAwIDc5Mi4wMDAwXQ0KL0NvbnRlbnRzIDcgMCBSDQo+Pg0KZW5kb2JqDQoNCjcgMCBvYmoNCjw8IC9MZW5ndGggNjc2ID4+DQpzdHJlYW0NCjIgSg0KQlQNCjAgMCAwIHJnDQovRjEgMDAyNyBUZg0KNTcuMzc1MCA3MjIuMjgwMCBUZA0KKCBTaW1wbGUgUERGIEZpbGUgMiApIFRqDQpFVA0KQlQNCi9GMSAwMDEwIFRmDQo2OS4yNTAwIDY4OC42MDgwIFRkDQooIC4uLmNvbnRpbnVlZCBmcm9tIHBhZ2UgMS4gWWV0IG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gKSBUag0KRVQNCkJUDQovRjEgMDAxMCBUZg0KNjkuMjUwMCA2NzYuNjU2MCBUZA0KKCBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSApIFRqDQpFVA0KQlQNCi9GMSAwMDEwIFRmDQo2OS4yNTAwIDY2NC43MDQwIFRkDQooIHRleHQuIE9oLCBob3cgYm9yaW5nIHR5cGluZyB0aGlzIHN0dWZmLiBCdXQgbm90IGFzIGJvcmluZyBhcyB3YXRjaGluZyApIFRqDQpFVA0KQlQNCi9GMSAwMDEwIFRmDQo2OS4yNTAwIDY1Mi43NTIwIFRkDQooIHBhaW50IGRyeS4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gKSBUag0KRVQNCkJUDQovRjEgMDAxMCBUZg0KNjkuMjUwMCA2NDAuODAwMCBUZA0KKCBCb3JpbmcuICBNb3JlLCBhIGxpdHRsZSBtb3JlIHRleHQuIFRoZSBlbmQsIGFuZCBqdXN0IGFzIHdlbGwuICkgVGoNCkVUDQplbmRzdHJlYW0NCmVuZG9iag0KDQo4IDAgb2JqDQpbL1BERiAvVGV4dF0NCmVuZG9iag0KDQo5IDAgb2JqDQo8PA0KL1R5cGUgL0ZvbnQNCi9TdWJ0eXBlIC9UeXBlMQ0KL05hbWUgL0YxDQovQmFzZUZvbnQgL0hlbHZldGljYQ0KL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcNCj4+DQplbmRvYmoNCg0KMTAgMCBvYmoNCjw8DQovQ3JlYXRvciAoUmF2ZSBcKGh0dHA6Ly93d3cubmV2cm9uYS5jb20vcmF2ZVwpKQ0KL1Byb2R1Y2VyIChOZXZyb25hIERlc2lnbnMpDQovQ3JlYXRpb25EYXRlIChEOjIwMDYwMzAxMDcyODI2KQ0KPj4NCmVuZG9iag0KDQp4cmVmDQowIDExDQowMDAwMDAwMDAwIDY1NTM1IGYNCjAwMDAwMDAwMTkgMDAwMDAgbg0KMDAwMDAwMDA5MyAwMDAwMCBuDQowMDAwMDAwMTQ3IDAwMDAwIG4NCjAwMDAwMDAyMjIgMDAwMDAgbg0KMDAwMDAwMDM5MCAwMDAwMCBuDQowMDAwMDAxNTIyIDAwMDAwIG4NCjAwMDAwMDE2OTAgMDAwMDAgbg0KMDAwMDAwMjQyMyAwMDAwMCBuDQowMDAwMDAyNDU2IDAwMDAwIG4NCjAwMDAwMDI1NzQgMDAwMDAgbg0KDQp0cmFpbGVyDQo8PA0KL1NpemUgMTENCi9Sb290IDEgMCBSDQovSW5mbyAxMCAwIFINCj4+DQoNCnN0YXJ0eHJlZg0KMjcxNA0KJSVFT0YNCg==";
-    
-    console.log(pdf);
-    const linkSource =pdf;
-    const downloadLink = document.createElement("a");
-    const fileName = "file.pdf";
-    downloadLink.href = linkSource;
-    downloadLink.download = fileName;
-    downloadLink.click();
  }
+
+ const onDownloadClicked = (params) => {
+  console.log('download clicked',params.target.getAttribute('data-download'));
+  let pdf;
+      if(params.target.getAttribute('data-col') == 'Shipment Details'){
+          const info = params.target.getAttribute('data-download')
+           pdf=`https://gateway.pinata.cloud/ipfs/${info}`;
+      }
+      if(params.target.getAttribute('data-col') == 'Bill Of Landing'){
+          const info = params.target.getAttribute('data-download')
+           pdf=`https://gateway.pinata.cloud/ipfs/${info}`;
+      }
+      if(params.target.getAttribute('data-col') == 'Delivery Recipt'){
+          const info = params.target.getAttribute('data-download')
+           pdf=`https://gateway.pinata.cloud/ipfs/${info}`;
+      }
+  // console.log(pdf);
+  // const linkSource =pdf;
+  // const downloadLink = document.createElement("a");
+  const fileName = "file.pdf";
+  // downloadLink.href = linkSource;
+  // downloadLink.download = fileName;
+  // downloadLink.click();
+  axios.get(pdf, {
+  responseType: 'blob',
+  })
+  .then((res) => {
+  fileDownload(res.data, fileName)
+  })
+}  
 
  const [openTestModal, setOpenTestModal] = useState(false);
  const[cellValue, setCellValue] = useState()  ;
@@ -194,7 +231,7 @@ const onCellClicked = (params) => {
         />
 
         <ShipmentModal open={shipmentCreate} onClose={() => setShipmentCreate(false)} rowInfo={arrayIndex}/>
-        <PDFViewer open={openPDFModal} onClose={() => setOpenPDFModal(false)} />
+        <PDFViewer open={openPDFModal} onClose={() => setOpenPDFModal(false)} info={pdfValue}/>
      </div>
    </div>
 

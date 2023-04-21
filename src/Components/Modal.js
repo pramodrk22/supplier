@@ -36,7 +36,7 @@ const Modal = ({ open, onClose, rowInfo }) => {
 
   const onSubmit = async () => {
     
-    const campaign = Campaign('0x780c66A89ae42514c9e54bb7Ce95Dff7A5332816');
+    const campaign = Campaign('0x8A59B3f39129379D39eC22cA815cA726BB395338');
     const { rmReport, qualityReport, insuranceReport} = state;
 
     //setState({ ...state, loading: true, errorMessage: "" });
@@ -139,9 +139,43 @@ const Modal = ({ open, onClose, rowInfo }) => {
 
           <Form onSubmit={onSubmit} error={!!state.errorMessage}>
 
-          <Form.Field>
-            <label>RM Report</label>
+          <div class="form-group row">
+              <label  class="col-sm-2 col-form-label">RM Report</label>
+                <div class="col-sm-10">
+                  <input  type="file" class="form-control"  
+                  onChange={(event) =>
+                    setState({ ...state, rmReport: event.target.files[0] })
+                  }
+                  placeholder="file"/>
+              </div>
+          </div>
+          <br/>
+          <div class="form-group row">
+              <label  class="col-sm-2 col-form-label">Quality Report</label>
+                <div class="col-sm-10">
+                  <input  type="file" class="form-control"  
+                  onChange={(event) =>
+                    setState({ ...state, qualityReport: event.target.files[0] })
+                  }
+                  placeholder="file"/>
+              </div>
+          </div>
+          <br/>
+          <div class="form-group row">
+              <label  class="col-sm-2 col-form-label">Insurance Report</label>
+                <div class="col-sm-10">
+                  <input  type="file" class="form-control"  
+                  onChange={(event) =>
+                    setState({ ...state, insuranceReport: event.target.files[0] })
+                  }
+                  placeholder="file"/>
+              </div>
+          </div>
+
+          {/* <Form.Field>
+            <label class="col-sm-2 col-form-label">RM Report</label>
             <Input
+            class="form-control"
               type="file"
               onChange={(event) =>
                 setState({ ...state, rmReport: event.target.files[0] })
@@ -176,7 +210,9 @@ const Modal = ({ open, onClose, rowInfo }) => {
             <br/>
             <Button primary loading={state.loading}>
               Create!
-            </Button>
+            </Button> */}
+            <br/>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
             <button type="button"  onClick={onClose}  class="btn btn-danger mb-2 " style={{position:'absolute', top:'10px', right:'10px'}}>close</button> 
              </Form>
       </div>

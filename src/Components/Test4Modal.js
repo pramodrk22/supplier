@@ -28,7 +28,7 @@ const Test4Modal = ({open, onClose, rowInfo}) => {
 
   const onSubmit = async () => {
     
-    const campaign = Campaign('0x780c66A89ae42514c9e54bb7Ce95Dff7A5332816');
+    const campaign = Campaign('0x8A59B3f39129379D39eC22cA815cA726BB395338');
     const { orderId, manufacturerName, supplierName, invoiceReport } = state;
 
     //setState({ ...state, loading: true, errorMessage: "" });
@@ -70,7 +70,54 @@ const Test4Modal = ({open, onClose, rowInfo}) => {
 
           <Form onSubmit={onSubmit} error={!!state.errorMessage}>
 
-          <Form.Field>
+          <div class="form-group row">
+              <label  class="col-sm-2 col-form-label">Order ID</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"  
+                            alue={state.orderId}
+                            onChange={(event) =>
+                                setState({ ...state, orderId: event.target.value })
+                             }
+                    />
+                </div>
+          </div>
+          <br/>
+          <div class="form-group row">
+              <label  class="col-sm-2 col-form-label">Manufacturer Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"  
+                            alue={state.manufacturerName}
+                            onChange={(event) =>
+                                setState({ ...state, manufacturerName: event.target.value })
+                             }
+                    />
+                </div>
+          </div>
+          <br/>             
+          <div class="form-group row">
+              <label  class="col-sm-2 col-form-label">Order ID</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"  
+                            alue={state.supplierName}
+                            onChange={(event) =>
+                                setState({ ...state, supplierName: event.target.value })
+                             }
+                    />
+                </div>
+          </div>
+          <br/>
+          <div class="form-group row">
+              <label  class="col-sm-2 col-form-label">Invoice Report</label>
+                <div class="col-sm-10">
+                  <input  type="file" class="form-control"  
+                  onChange={(event) =>
+                    setState({ ...state, invoiceReport: event.target.files[0] })
+                  }
+                  placeholder="file"/>
+              </div>
+          </div>
+
+          {/* <Form.Field>
             <label>Order Id</label>
             <Input
               value={state.orderId}
@@ -78,9 +125,9 @@ const Test4Modal = ({open, onClose, rowInfo}) => {
                 setState({ ...state, orderId: event.target.value })
               }
             />
-          </Form.Field>
+          </Form.Field> */}
           
-          <Form.Field>
+          {/* <Form.Field>
             <label>manufacturerName</label>
             <Input
               value={state.manufacturerName}
@@ -97,8 +144,8 @@ const Test4Modal = ({open, onClose, rowInfo}) => {
                 setState({ ...state, supplierName: event.target.value })
               }
             />
-          </Form.Field>
-          <Form.Field>
+          </Form.Field> */}
+          {/* <Form.Field>
             <label>invoiceReport</label>
             <Input
               type="file"
@@ -106,12 +153,15 @@ const Test4Modal = ({open, onClose, rowInfo}) => {
                 setState({ ...state, invoiceReport: event.target.files[0] })
               }
             />
-          </Form.Field>
+          </Form.Field> */}
           
             <Message error  content={state.errorMessage} />
-            <Button primary loading={state.loading}>
+            {/* <Button primary loading={state.loading}>
               Create!
-            </Button>
+            </Button> */}
+            <br></br>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
             <button type="button"  onClick={onClose}  class="btn btn-danger mb-2 " style={{position:'absolute', top:'10px', right:'10px'}}>close</button> 
              </Form>
       </div>

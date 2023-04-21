@@ -66,7 +66,7 @@ const Test4 = () => {
 //const [obj, setObj] = useState({});
 
  useEffect( () => {
-  const address = '0x780c66A89ae42514c9e54bb7Ce95Dff7A5332816';
+  const address = '0x8A59B3f39129379D39eC22cA815cA726BB395338';
   const campaign = Campaign(address);
   console.log('use effect campaign',campaign);
   (async () => {
